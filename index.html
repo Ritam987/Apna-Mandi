@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Apna Mandi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #ffc107;
+        --background-color: #ffffff;
+        --text-primary: #1f2937;
+        --text-secondary: #4b5563;
+        --accent-color: #f59e0b;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      .font-brand {
+        font-family: "Lobster", cursive;
+      }
+      .loader-bar {
+        animation: loading 1.5s infinite;
+      }
+      @keyframes loading {
+        0% {
+          width: 0%;
+        }
+        50% {
+          width: 100%;
+        }
+        100% {
+          width: 0%;
+        }
+      }
+      .progress-bar {
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between">
+<div class="absolute inset-0 bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDgkqCdSibzLfQrbwHj0M0o_BBsQp50B2nm1vV53D2hOykgFG5_3c07bsk8qjTmbui068_JRT7pHd9GDmjkLaGeqBz7cJn5rrj7663rn3DNQr3sCLQ-odUE82lxeq7WQO2ucjszFkntCaoYoQfy9btgDk2bcLhc8FLljvQDsijvy4Zl8TXTYYbOdajqKJzqAFl-MUrPa4mfmaV8tjI6QQA4hFuw4UMhU-Qi9QV8tERoF92fecn2M4FuFqSAkLPdv9HHpMCxP4dFfyw");'>
+<div class="absolute inset-0 bg-black/50"></div>
+</div>
+<div class="relative z-10 flex flex-1 flex-col items-center justify-center text-center px-6">
+<h1 class="font-brand text-6xl text-white drop-shadow-lg">Apna Mandi</h1>
+<p class="mt-4 max-w-md text-lg text-white/90 drop-shadow-md">Wholesale Ingredients &amp; Community for Street Food Vendors</p>
+</div>
+<div class="relative z-10 pb-12 px-6">
+<p class="text-center text-sm font-medium text-white/80">Loading... <span id="loading-percentage">0%</span></p>
+<div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/30">
+<div class="h-full rounded-full bg-[var(--primary-color)] progress-bar" id="progress-bar"></div>
+</div>
+</div>
+</div>
+
+<script>
+// Simulate loading progress
+let progress = 0;
+const progressBar = document.getElementById('progress-bar');
+const loadingPercentage = document.getElementById('loading-percentage');
+
+function updateProgress() {
+    if (progress < 100) {
+        progress += Math.random() * 15 + 5; // Random increment between 5-20
+        if (progress > 100) progress = 100;
+        
+        progressBar.style.width = progress + '%';
+        loadingPercentage.textContent = Math.round(progress) + '%';
+        
+        if (progress < 100) {
+            setTimeout(updateProgress, Math.random() * 500 + 200); // Random delay between 200-700ms
+        } else {
+            // Loading complete, redirect to login page
+            setTimeout(() => {
+                window.location.href = 'loginorsignuppage.html';
+            }, 1000);
+        }
+    }
+}
+
+// Start loading when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(updateProgress, 500);
+});
+</script>
+
+</body></html>

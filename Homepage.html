@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Spline+Sans:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #f8f406;
+            --background-color: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent-color: #f8f406;
+        }
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        .button_primary {
+            @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-full px-4 py-2 hover:bg-yellow-400;
+        }
+        .button_secondary {
+            @apply bg-gray-100 text-[var(--text-primary)] rounded-full px-4 py-2 hover:bg-gray-200;
+        }
+        .input {
+            @apply border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:border-[var(--primary-color)];
+        }
+        .typography_h1 {
+            @apply text-3xl font-bold text-[var(--text-primary)] mb-4;
+        }
+        .typography_h2 {
+            @apply text-2xl font-semibold text-[var(--text-primary)] mb-2;
+        }
+        .typography_body {
+            @apply text-base text-[var(--text-secondary)];
+        }
+        .card {
+            @apply bg-white rounded-lg shadow-md p-6;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    
+    /* Hero Slider Styles */
+    .hero-slider-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .hero-slide {
+      flex-shrink: 0;
+      width: 100%;
+    }
+    
+    .slider-dot {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .slider-dot:hover {
+      transform: scale(1.2);
+    }
+    
+    .slider-arrow {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    .slider-arrow:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Flash Sale Card Hover Effects */
+    .flash-sale-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Category Item Hover Effects */
+    .category-item:hover {
+      transform: scale(1.05);
+    }
+    
+    .category-item:hover .w-16 {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Continue Shopping Card Hover Effects */
+    .continue-shopping-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Top Deals Card Hover Effects */
+    .top-deals-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--background-color)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden">
+<div class="flex flex-col">
+<header class="bg-[var(--background-color)] p-4 shadow-sm sticky top-0 z-10">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<img alt="logo" class="h-10 w-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyVc2n0pWII2XNA6igmW1P-SreBiziSryX3Fis6pJjCKiR8lhm7eZAeBVK8ZAVstVpr4fYWagWJr0S91oWp9YrQdaz7EWl6hCiRrf0Op6v19aCZVWoP_j_7lbJOvrBI40oMIvWBUR9baW2w8XClx9RpLCzFUPW5UpJl69h1_SfABoOkJMlWEa-iONOYg101Y317I9Oqtj65uljZAb9nM3qw3RPnBVfI90ZBbUEYK1FKJvzRRpKcVuuWDhwSqbJNuysMlvR6VFt99w"/>
+<div>
+<p class="text-xs text-[var(--text-secondary)]">Your Location</p>
+<div class="flex items-center">
+<h1 class="text-base font-bold text-[var(--text-primary)]">Mumbai, India</h1>
+<svg class="h-4 w-4 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+          <div class="relative">
+            <a href="hubcartpage.html" class="flex items-center justify-center w-10 h-10 bg-[var(--primary-color)] rounded-full">
+              <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path>
+              </svg>
+              <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold" style="display: none;">0</span>
+            </a>
+          </div>
+          <a href="mywishlistpage.html" class="flex items-center justify-center w-10 h-10 bg-[var(--accent-color)] rounded-full">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+            </svg>
+            <span id="wishlist-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold" style="display: none;">0</span>
+          </a>
+          <a href="accountorprofilepage.html" class="flex items-center justify-center w-10 h-10 bg-[var(--accent-color)] rounded-full">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+</svg>
+          </a>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<label class="flex flex-col min-w-40 h-14 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-full h-full shadow-lg border-2 border-[var(--primary-color)]">
+<div class="text-[var(--text-primary)] flex bg-[var(--primary-color)] items-center justify-center pl-4 rounded-l-full">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-full text-[var(--text-primary)] focus:outline-0 focus:ring-0 border-none bg-white h-full placeholder:text-[var(--text-secondary)] px-4 text-base font-normal leading-normal" placeholder="Search for 'Onion'" value="" id="homepage-search"/>
+</div>
+</label>
+</div>
+</header>
+<main class="flex-grow">
+<div class="p-4">
+<!-- Hero Slider Section -->
+<div class="hero-slider-container relative overflow-hidden rounded-xl mb-4">
+  <div class="hero-slider flex transition-transform duration-500 ease-in-out">
+    <div class="hero-slide w-full flex-shrink-0">
+      <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVBiHuP4n5z7LpfW69v5VyLp1496TmUTGmec8w8dQYBNMBj0kbM9gmwJct3m-p_POtc64Q9_eGN2kW9R6hjZqns20DHvNkMupMZcxW20bN6nN5cF3tz_lyweYnvZZ68m4LHf-KfMsyEvOFO4Fcn0Ib6IWOx5Gg0pwZpnQgJRBHlBj2Gj3Ag4dqnwpjW3KduiPNkqW49j0_uUUG-OD4cH0oGkznLiINEiQhFIgS3XMe0PC7WAq08GB64fayAIuFNE3_hsLL6qPIibA");'></div>
+    </div>
+    <div class="hero-slide w-full flex-shrink-0">
+      <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVBiHuP4n5z7LpfW69v5VyLp1496TmUTGmec8w8dQYBNMBj0kbM9gmwJct3m-p_POtc64Q9_eGN2kW9R6hjZqns20DHvNkMupMZcxW20bN6nN5cF3tz_lyweYnvZZ68m4LHf-KfMsyEvOFO4Fcn0Ib6IWOx5Gg0pwZpnQgJRBHlBj2Gj3Ag4dqnwpjW3KduiPNkqW49j0_uUUG-OD4cH0oGkznLiINEiQhFIgS3XMe0PC7WAq08GB64fayAIuFNE3_hsLL6qPIibA");'></div>
+    </div>
+    <div class="hero-slide w-full flex-shrink-0">
+      <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVBiHuP4n5z7LpfW69v5VyLp1496TmUTGmec8w8dQYBNMBj0kbM9gmwJct3m-p_POtc64Q9_eGN2kW9R6hjZqns20DHvNkMupMZcxW20bN6nN5cF3tz_lyweYnvZZ68m4LHf-KfMsyEvOFO4Fcn0Ib6IWOx5Gg0pwZpnQgJRBHlBj2Gj3Ag4dqnwpjW3KduiPNkqW49j0_uUUG-OD4cH0oGkznLiINEiQhFIgS3XMe0PC7WAq08GB64fayAIuFNE3_hsLL6qPIibA");'></div>
+    </div>
+    <div class="hero-slide w-full flex-shrink-0">
+      <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVBiHuP4n5z7LpfW69v5VyLp1496TmUTGmec8w8dQYBNMBj0kbM9gmwJct3m-p_POtc64Q9_eGN2kW9R6hjZqns20DHvNkMupMZcxW20bN6nN5cF3tz_lyweYnvZZ68m4LHf-KfMsyEvOFO4Fcn0Ib6IWOx5Gg0pwZpnQgJRBHlBj2Gj3Ag4dqnwpjW3KduiPNkqW49j0_uUUG-OD4cH0oGkznLiINEiQhFIgS3XMe0PC7WAq08GB64fayAIuFNE3_hsLL6qPIibA");'></div>
+    </div>
+  </div>
+  
+  <!-- Slider Navigation Dots -->
+  <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+    <button class="slider-dot w-2 h-2 rounded-full bg-white bg-opacity-50 transition-all duration-300" data-slide="0"></button>
+    <button class="slider-dot w-2 h-2 rounded-full bg-white bg-opacity-50 transition-all duration-300" data-slide="1"></button>
+    <button class="slider-dot w-2 h-2 rounded-full bg-white bg-opacity-50 transition-all duration-300" data-slide="2"></button>
+    <button class="slider-dot w-2 h-2 rounded-full bg-white bg-opacity-50 transition-all duration-300" data-slide="3"></button>
+  </div>
+  
+  <!-- Slider Navigation Arrows -->
+  <button class="slider-arrow slider-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-all duration-300">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+  <button class="slider-arrow slider-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-all duration-300">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+</div>
+</div>
+<section class="p-4 bg-red-50 rounded-lg mx-4">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-2xl font-bold text-red-600">Flash Sale</h2>
+<div class="bg-red-600 text-white text-lg font-bold px-4 py-2 rounded-lg flex items-center gap-2">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Ends in: 02:34:12</span>
+</div>
+</div>
+<div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden gap-4 pb-4">
+<div class="flash-sale-card flex flex-col gap-2 rounded-lg w-40 shrink-0 bg-white p-2 shadow-md cursor-pointer hover:shadow-lg transition-all duration-300" data-product="fresh-vegetables">
+<div class="relative w-full aspect-square">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAihV3FtPNPLe6lLB2UJo5Y9P1lh3ClZ1SAQ_I0273_hyp-Z9JCJzcSTPE2TPsNcCFcAhbLhCSTZvSqy-qJTSx_B04gjEOzpvSRg1kbkyU49aDAMRTOOKWqyK9om399m-pmS244XYWko_YYKJWLYUjatcgq3uhC9o4-2TgD-rj5Dc3ay3RxJQsm_w9DZ4kmRNaK9s3OjWp4M1xjGjUfe_51pT_4XOhjmlsbAo-fqR-0fjqNdBvY5MRgpDcidfUTh--vgrz8QH9zLTk");'></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">20% OFF</div>
+</div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Fresh Vegetables</p>
+<p class="text-red-600 text-base font-bold">₹80 <span class="text-gray-500 text-sm line-through">₹100</span></p>
+</div>
+</div>
+<div class="flash-sale-card flex flex-col gap-2 rounded-lg w-40 shrink-0 bg-white p-2 shadow-md cursor-pointer hover:shadow-lg transition-all duration-300" data-product="spices">
+<div class="relative w-full aspect-square">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDXeQGrZP3LM1ScWL-CHUXF-WJ_8ctUJlUwidrwAanZuN2atZSfNsAhs4cg2rXDBwOFmcxY6MTBk9DFBkswMRa0bW9Pfa_g4Wz7tBIuSP5LjP-gt6VQwr-ozL4v9fFaJlYivJ-bm0g6jl_X7ciZWiei2K9vVuE8kiTdnibF1ekn99gTY5RVP2KEFlAriOmbJmrONin9IFS1qgq0XF-sJjksWn6DedZQBA7eH4BVMLFet78L8OBQ8B3W3o6UZKphKM4-Rp5Q7BweyKs");'></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">15% OFF</div>
+</div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Spices</p>
+<p class="text-red-600 text-base font-bold">₹170 <span class="text-gray-500 text-sm line-through">₹200</span></p>
+</div>
+</div>
+<div class="flash-sale-card flex flex-col gap-2 rounded-lg w-40 shrink-0 bg-white p-2 shadow-md cursor-pointer hover:shadow-lg transition-all duration-300" data-product="cooking-oil">
+<div class="relative w-full aspect-square">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBhTmE5FgyedjX8PGkqQA2rfb2kDXwatSBZi-Mi83sa38lT07dcDiHmiMFQ9KSJ8k2erDM-k-9ogcjEPl_nH1HnOt_V0SIdMCfkawF7hYlQOmq85uQ_0qvEOZhSe-cTEsHg6mEX1lo_rSLIaxHijkQ8h285fKSk-RATd4YnHOPbrKyNmZVOD0amh_bCj3R5DFNPzxtQaJQRFj3Sebv-Hhfu9GB2B3QhpxR8WettRbbg0OwinqGyXSFddcfRyemiy3LKzaaA0j0Dzk");'></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">10% OFF</div>
+</div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Cooking Oil</p>
+<p class="text-red-600 text-base font-bold">₹180 <span class="text-gray-500 text-sm line-through">₹200</span></p>
+</div>
+</div>
+</div>
+</section>
+<section class="p-4">
+<h2 class="text-xl font-bold text-[var(--text-primary)] mb-2">Categories</h2>
+<div class="grid grid-cols-4 gap-4 text-center">
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="vegetables">
+<div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Vegetables</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="spices">
+<div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Spices</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="dairy">
+<div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Dairy</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="poultry">
+<div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Poultry</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="grains">
+<div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Grains</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="beverages">
+<div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
+<img class="w-10 h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbQrmijyOzfFSDGMOLH-_g-y2M_b5BE5F1mFpMklNIsgyRVVo1hSWSwuujMYuQ4rrlThStd75H3i9ofrnu_1cpupJVuwcmkmGgRYASGC977EWwcjzABroIIsc49ogboS-V081-aRCwqoGXQYuBfH--ed_fCokxzAnFCRzA_LLm_RaErC-zzbRPlK51Ouk-lFPfitJZvfUN_E8tyL9lqW35kizeaCWl4dtwJTG0y1WPlrEk_zq_G_hQ10nV3b-VpC03r5RuwvoNJgs"/>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">Beverages</p>
+</div>
+<div class="category-item flex flex-col items-center gap-2 cursor-pointer hover:scale-105 transition-transform duration-300" data-category="more">
+<div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+<svg class="h-8 w-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p class="text-[var(--text-primary)] text-xs font-medium">More</p>
+</div>
+</div>
+</section>
+<section class="p-4">
+<h2 class="text-xl font-bold text-[var(--text-primary)] mb-2">Continue Shopping For</h2>
+<div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden gap-4 pb-4">
+<div class="continue-shopping-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="tomatoes">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAld4qAbnvAeYJ59ZP8VUD1j10I87MFZvn9Re6rPDJeePqYfaPm6VTtpm1jZ9AKwwiPeZR4rGt6Ard9ba8uemJb-TPNWzK9uIAtWanp0kM1lC0j0225X66vOlN3la6HsTgXMkr6ywqyn1Rnur7SLanMFOdYDuNEGuPIpZjdBGJXC-XXoZL7xuH82sFWL22CB_PyTdyp5UyVr4MZ358G0Q_AF11qzCUvcvJRaOw7yYuOIEPRfa5mCGD5-RN5mzvbm1-hGFRPwmtPEYI");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Tomatoes</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">1 kg</p>
+</div>
+</div>
+<div class="continue-shopping-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="onions">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwBj53r9bNR96tvMymXHVdHPbsLWCSIiucJ8C2A4atqNqPOqCpxIW5A9u6IUCCdjTlIA0YmqO1QfToj9RzD-a4ZmdD_W_-L6qPUceKVzBRrcvLX3_8yUd3pkcKsOPjgmZw_eGAlrp9iwaVHyhN8zMKExmElwaeMivN9iGNV_PoldUrd1MPoov1Zn0oFyboOzzYLDpFEQFE5jK4cRCTpKLICcUFHq7FLUb-uV6KT1aCEx6ckr8ycklgo-dbnLmNeQalHV4BxurztiQ");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Onions</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">1 kg</p>
+</div>
+</div>
+<div class="continue-shopping-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="potatoes">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzKQOGBndFUhPPn9voITguy3ekLnpptuq9ueKpz7eJDCp0qyJbdZHTIdHTNdgXTl1wOLgrgzDCOWa06avBQyAR9iyKI-cLAFxQxXMK9j5_yzQyHPw6QIMGraapOAJ7b5muc-km3J8etzJKgf6gdWUm8ocAdUSK5q0jeQLOB7dA0-gmmeuF2GiLnNh9GyHYc39-yTszUArXtui7QWvUBl08eNjXCFOpGGc9aQifKufo2qQPr9hSwNBdMdu6eCziFsq7x2e1oaqe6ms");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Potatoes</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">1 kg</p>
+</div>
+</div>
+</div>
+</section>
+<section class="p-4">
+<h2 class="text-xl font-bold text-[var(--text-primary)] mb-2">Top Deals in Mumbai</h2>
+<div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden gap-4 pb-4">
+<div class="top-deals-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="chaat-masala">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAu4Q2w_oOPWEa_uVRdXHh1Y9jTbIwZGlKqCsyvI-vkDhdvv9XxsJrMtzZSsyf2CFU97slXC91tbMs1YAJgUmXG4LMD0QwRIAmdXJjvKKelk-HPdpUBXGeb4X3i6vSixSHk3fKFNmeCn5g7Q4Ak80Ln5GVhssiFZllZoRYRGMgsjkUBoac-87bhFTboatqI_F_ajmlcG9nKyvTgUTsQojTJUA6-ui1IRVMHUARKvF2RjHZbBdcLrJaMyhnlbmk7mabkubpLHROwLII");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Chaat Masala</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">100g</p>
+</div>
+</div>
+<div class="top-deals-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="pav-bhaji-masala">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtCdpVsfTpFHzu6H94UmFtG2SQYrufsaz9YQy2vzMwYHVIjExWZSZudwQ6aidE2VFGw6UJC-24ZNxc6pj7VmqTEMWycuqKAkuUBic_zFZ5IEbSOKKxThu3Pfv7ny-Fc43Ni25ICkBJWeCiSzcf-5OKJK0oNZ6jRCW0TyOWZ8EcTHBRnp7fvSqNF9ssPpgF8l870ijbzJRafPjcM43xODb-l9rfT8Ou_bGA_WvcDCfqG1KOVlaznlXP1L6pibAITavF8ukBi_D1KsU");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Pav Bhaji Masala</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">100g</p>
+</div>
+</div>
+<div class="top-deals-card flex flex-col gap-2 rounded-lg w-36 shrink-0 cursor-pointer hover:shadow-lg transition-all duration-300" data-product="garam-masala">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBJLnRyY37oh19K2piL1YHvGBnGECJ-u7uucxvXS85rA5csXywM-9_7gS3bBY7aDC3rq4JUkfQR_mgiIIzLAeQmHv9EZg_p5kT6kS3lORSxDHb6smL7P0cQPh8fSg7tSukXk6qaW44FyRRGg6MXDCfkjX_bVzvVp4IZjo24wZ4NWT3Smbvf5xerOD4muSq3Pab89YjpV5xympL1hUQZQgszvYIc5gsF7ssmZZCa6xudN8qtVVs6f6FX2-fL-Oo8umBVx4kpZoXx9Us");'></div>
+<div>
+<p class="text-[var(--text-primary)] text-sm font-medium leading-normal">Garam Masala</p>
+<p class="text-[var(--text-secondary)] text-xs font-normal leading-normal">100g</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<footer class="sticky bottom-0 bg-[var(--background-color)] border-t border-gray-200">
+<div class="flex justify-around py-2">
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--primary-color)] relative" href="Homepage.html">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+</svg>
+<p class="text-xs font-medium tracking-[0.015em]">Home</p>
+<span class="absolute -bottom-2 w-1/2 h-1 bg-[var(--primary-color)] rounded-full"></span>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)]" href="searchfeedpage.html">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"></path>
+</svg>
+<p class="text-xs font-medium tracking-[0.015em]">Categories</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)]" href="hubcartpage.html">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path>
+</svg>
+<p class="text-xs font-medium tracking-[0.015em]">Hub Cart</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)]" href="specialofferspage.html">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"></path>
+</svg>
+<p class="text-xs font-medium tracking-[0.015em]">Surplus</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--text-secondary)]" href="accountorprofilepage.html">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+</svg>
+<p class="text-xs font-medium tracking-[0.015em]">Profile</p>
+</a>
+</div>
+</footer>
+</div>
+
+<script>
+// Check if user has completed the required setup
+document.addEventListener('DOMContentLoaded', () => {
+    const userData = localStorage.getItem('userData');
+    const locationData = localStorage.getItem('locationData');
+    
+    // Debug: Log what we find in localStorage
+    console.log('Homepage Debug - userData:', userData);
+    console.log('Homepage Debug - locationData:', locationData);
+    
+    // Check if user is logged in (but don't redirect if not)
+    let isLoggedIn = false;
+    let parsedUserData = null;
+    
+    if (userData) {
+        try {
+            parsedUserData = JSON.parse(userData);
+            if (parsedUserData && typeof parsedUserData === 'object' && parsedUserData.fullName && parsedUserData.phone) {
+                isLoggedIn = true;
+                console.log('Homepage Debug - User is logged in');
+            }
+        } catch (e) {
+            console.log('Homepage Debug - JSON parse error:', e);
+        }
+    }
+    
+    // If user is logged in but doesn't have location data, set a default location
+    if (isLoggedIn && !locationData) {
+        console.log('Homepage Debug - No locationData, setting default');
+        // Set default location data
+        const defaultLocation = {
+            location: 'Mumbai, India',
+            confirmed: true,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('locationData', JSON.stringify(defaultLocation));
+    }
+    
+    console.log('Homepage Debug - Authentication check complete, continuing...');
+    
+    // Update location display with stored data
+    const locationDisplay = document.querySelector('.text-base.font-bold');
+    if (locationDisplay) {
+        if (locationData) {
+            try {
+                const location = JSON.parse(locationData);
+                locationDisplay.textContent = location.location || 'Mumbai, India';
+            } catch (e) {
+                locationDisplay.textContent = 'Mumbai, India';
+            }
+        } else {
+            locationDisplay.textContent = 'Mumbai, India';
+        }
+    }
+    
+    // Search functionality
+    const searchInput = document.getElementById('homepage-search');
+    
+    // Handle search on Enter key press
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const searchQuery = searchInput.value.trim();
+            if (searchQuery) {
+                // Store search query in localStorage
+                localStorage.setItem('searchQuery', searchQuery);
+                // Redirect to search feed page
+                window.location.href = 'searchfeedpage.html';
+            }
+        }
+    });
+    
+    // Handle search on input focus (optional - redirects when user clicks on search bar)
+    searchInput.addEventListener('focus', () => {
+        // Optional: You can add a small delay to let user type before redirecting
+        // For now, we'll just let them type and press Enter
+    });
+    
+    // Add logout functionality (only show if logged in)
+    const profileLink = document.querySelector('a[href="accountorprofilepage.html"]');
+    if (profileLink && isLoggedIn) {
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Do you want to logout?')) {
+                localStorage.removeItem('userData');
+                localStorage.removeItem('locationData');
+                localStorage.removeItem('searchQuery');
+                window.location.href = 'loginorsignuppage.html';
+            }
+        });
+    }
+
+    // Initialize Hero Slider
+    initHeroSlider();
+    
+    // Initialize Flash Sale Cards
+    initFlashSaleCards();
+    
+    // Initialize Category Items
+    initCategoryItems();
+    
+    // Initialize Continue Shopping Cards
+    initContinueShoppingCards();
+    
+    // Initialize Top Deals Cards
+    initTopDealsCards();
+
+    // Update cart and wishlist counts
+    updateCounts();
+    
+    // Update counts every time the page becomes visible
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        updateCounts();
+      }
+    });
+});
+
+// Hero Slider Functionality
+function initHeroSlider() {
+    const slider = document.querySelector('.hero-slider');
+    const dots = document.querySelectorAll('.slider-dot');
+    const prevBtn = document.querySelector('.slider-prev');
+    const nextBtn = document.querySelector('.slider-next');
+    
+    let currentSlide = 0;
+    const totalSlides = 4;
+    
+    function updateSlider() {
+        const translateX = -currentSlide * 100;
+        slider.style.transform = `translateX(${translateX}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            if (index === currentSlide) {
+                dot.classList.add('bg-opacity-100');
+                dot.classList.remove('bg-opacity-50');
+            } else {
+                dot.classList.remove('bg-opacity-100');
+                dot.classList.add('bg-opacity-50');
+            }
+        });
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlider();
+    }
+    
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+    
+    // Event listeners
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            updateSlider();
+        });
+    });
+    
+    // Auto-slide every 3 seconds
+    setInterval(nextSlide, 3000);
+    
+    // Initialize first slide
+    updateSlider();
+}
+
+// Flash Sale Cards Functionality
+function initFlashSaleCards() {
+    const flashSaleCards = document.querySelectorAll('.flash-sale-card');
+    
+    flashSaleCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const product = card.getAttribute('data-product');
+            
+            // Create product data for details page
+            const productData = {
+                id: product,
+                name: card.querySelector('p').textContent,
+                price: card.querySelector('.text-red-600').textContent,
+                image: card.querySelector('.bg-cover').style.backgroundImage,
+                discount: card.querySelector('.bg-red-500').textContent,
+                originalPrice: card.querySelector('.line-through').textContent
+            };
+            
+            // Store product data for details page
+            localStorage.setItem('selectedProduct', JSON.stringify(productData));
+            
+            // Navigate to product details page
+            window.location.href = 'productdetailspage.html';
+        });
+    });
+}
+
+// Category Items Functionality
+function initCategoryItems() {
+    const categoryItems = document.querySelectorAll('.category-item');
+    
+    categoryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const category = item.getAttribute('data-category');
+            
+            if (category === 'more') {
+                // Navigate to search page for "More" option
+                window.location.href = 'searchfeedpage.html';
+            } else {
+                // Store category for search
+                localStorage.setItem('selectedCategory', category);
+                // Navigate to search page with category filter
+                window.location.href = 'searchfeedpage.html';
+            }
+        });
+    });
+}
+
+// Continue Shopping Cards Functionality
+function initContinueShoppingCards() {
+    const continueShoppingCards = document.querySelectorAll('.continue-shopping-card');
+    
+    continueShoppingCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const product = card.getAttribute('data-product');
+            const productName = card.querySelector('p').textContent;
+            const productQuantity = card.querySelector('.text-xs').textContent;
+            const productImage = card.querySelector('.bg-cover').style.backgroundImage;
+            
+            // Create product data for details page
+            const productData = {
+                id: product,
+                name: productName,
+                quantity: productQuantity,
+                image: productImage,
+                price: '₹45 / kg', // Default price for vegetables
+                seller: 'Fresh Market Vendor',
+                category: 'vegetables'
+            };
+            
+            // Store product data for details page
+            localStorage.setItem('selectedProduct', JSON.stringify(productData));
+            
+            // Navigate to product details page
+            window.location.href = 'productdetailspage.html';
+        });
+    });
+}
+
+// Top Deals Cards Functionality
+function initTopDealsCards() {
+    const topDealsCards = document.querySelectorAll('.top-deals-card');
+    
+    topDealsCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const product = card.getAttribute('data-product');
+            const productName = card.querySelector('p').textContent;
+            const productQuantity = card.querySelector('.text-xs').textContent;
+            const productImage = card.querySelector('.bg-cover').style.backgroundImage;
+            
+            // Create product data for details page
+            const productData = {
+                id: product,
+                name: productName,
+                quantity: productQuantity,
+                image: productImage,
+                price: '₹120 / 100g', // Default price for spices
+                seller: 'Premium Spice Vendor',
+                category: 'spices'
+            };
+            
+            // Store product data for details page
+            localStorage.setItem('selectedProduct', JSON.stringify(productData));
+            
+            // Navigate to product details page
+            window.location.href = 'productdetailspage.html';
+        });
+    });
+}
+
+function updateCounts() {
+  // Update cart count
+  const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCountElement = document.getElementById('cart-count');
+  
+  if (cartCount > 0) {
+    cartCountElement.textContent = cartCount;
+    cartCountElement.style.display = 'flex';
+  } else {
+    cartCountElement.style.display = 'none';
+  }
+  
+  // Update wishlist count
+  const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+  const wishlistCountElement = document.getElementById('wishlist-count');
+  
+  if (wishlistItems.length > 0) {
+    wishlistCountElement.textContent = wishlistItems.length;
+    wishlistCountElement.style.display = 'flex';
+  } else {
+    wishlistCountElement.style.display = 'none';
+  }
+}
+</script>
+
+</body></html>

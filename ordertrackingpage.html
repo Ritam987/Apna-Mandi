@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<meta name="theme-color" content="#ffffff"/>
+<title>Order Details</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #f8f8ec;
+            --background-color: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent-color: #e0e0d1;
+        }
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        .main_container {
+            @apply container mx-auto px-4 py-8;
+        }
+        .card {
+            @apply bg-white rounded-lg shadow-md p-6;
+        }
+        .button_primary {
+            @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-full px-6 py-3 hover:bg-[var(--accent-color)] transition duration-200;
+        }
+        .button_secondary {
+            @apply bg-white text-[var(--text-primary)] rounded-full px-6 py-3 border border-[var(--primary-color)] hover:bg-[var(--accent-color)] transition duration-200;
+        }
+        .input {
+            @apply bg-white border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:border-[var(--primary-color)];
+        }
+        .typography_h1 {
+            @apply text-3xl font-bold text-[var(--text-primary)];
+        }
+        .typography_h2 {
+            @apply text-2xl font-semibold text-[var(--text-primary)];
+        }
+        .typography_body {
+            @apply text-base text-[var(--text-secondary)];
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Load order data from localStorage
+    const orderData = JSON.parse(localStorage.getItem('orderData') || '{}');
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId') || orderData.orderId || '12345';
+    
+    // Update order ID in header
+    const headerTitle = document.querySelector('h1');
+    if (headerTitle) {
+        headerTitle.textContent = `Track Order #${orderId}`;
+    }
+    
+    // Update order summary if data exists
+    if (orderData.items && orderData.items.length > 0) {
+        const orderSummaryContainer = document.querySelector('.space-y-3');
+        if (orderSummaryContainer) {
+            orderSummaryContainer.innerHTML = orderData.items.map(item => `
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold text-[var(--text-primary)]">${item.name}</p>
+                        <p class="text-sm text-[var(--text-secondary)]">${item.quantity} kg</p>
+                    </div>
+                    <p class="font-semibold text-[var(--text-primary)]">₹${(parseInt(item.price.match(/₹(\d+)/)?.[1] || 0) * item.quantity)}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Update total
+        const totalElement = document.querySelector('.flex.justify-between.items-center.font-bold p:last-child');
+        if (totalElement && orderData.total) {
+            totalElement.textContent = `₹${orderData.total}`;
+        }
+    }
+    
+    // Back button functionality
+    const backButton = document.querySelector('header button');
+    backButton.addEventListener('click', () => window.history.back());
+
+    // Reorder button functionality
+    const reorderButton = document.querySelector('button.button_primary');
+    reorderButton.addEventListener('click', () => {
+        reorderButton.classList.add('processing');
+        reorderButton.textContent = 'Processing...';
+        setTimeout(() => {
+            window.location.href = 'checkoutpage.html';
+        }, 1000);
+    });
+
+    // Contact support button functionality
+    const supportButton = document.querySelector('button.button_secondary');
+    supportButton.addEventListener('click', () => {
+        window.location.href = 'help&resources.html';
+    });
+
+    // Add copy functionality for Transaction ID
+    const transactionInfo = document.querySelector('.transaction-id');
+    if (transactionInfo) {
+        transactionInfo.style.cursor = 'pointer';
+        transactionInfo.title = 'Click to copy Transaction ID';
+        transactionInfo.addEventListener('click', () => {
+            const id = transactionInfo.textContent.split(': ')[1];
+            navigator.clipboard.writeText(id);
+            
+            const originalText = transactionInfo.textContent;
+            transactionInfo.textContent = 'Transaction ID copied!';
+            transactionInfo.style.color = 'green';
+            
+            setTimeout(() => {
+                transactionInfo.textContent = originalText;
+                transactionInfo.style.color = '';
+            }, 2000);
+        });
+    }
+
+    // Animate progress timeline on load
+    const timelineItems = document.querySelectorAll('.w-0.5.h-16');
+    timelineItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.transform = 'scaleY(1)';
+        }, index * 300);
+    });
+});
+</script>
+<style>
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Timeline animations */
+    .w-0.5.h-16 {
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.5s ease-out;
+    }
+
+    /* Button animations */
+    .button_primary, .button_secondary {
+        position: relative;
+        overflow: hidden;
+        transform: translateZ(0);
+    }
+
+    .button_primary:active, .button_secondary:active {
+        transform: scale(0.98);
+    }
+
+    .button_primary.processing {
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color) 100%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+
+    /* Status checkmarks animation */
+    .bi-check-lg {
+        opacity: 0;
+        animation: checkmark 0.5s ease-in-out forwards;
+    }
+
+    @keyframes checkmark {
+        from {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Hover effects */
+    .list_item:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease;
+    }
+
+    /* Progress bar animation */
+    .bg-[var(--text-primary)] {
+        animation: progressBar 1s ease-out;
+    }
+
+    @keyframes progressBar {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    /* Delivery status pulse effect */
+    .bg-[var(--primary-color)] {
+        position: relative;
+    }
+
+    .bg-[var(--primary-color)]::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        animation: pulse 2s infinite;
+        background: var(--primary-color);
+        z-index: -1;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.05); opacity: 0.25; }
+        100% { transform: scale(1); opacity: 0.5; }
+    }
+</style>
+<body class="bg-[var(--background-color)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between overflow-x-hidden">
+<div class="flex flex-col">
+<header class="flex items-center p-4 shadow-sm sticky top-0 bg-[var(--background-color)] z-10">
+<button class="text-[var(--text-primary)]">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="text-[var(--text-primary)] text-xl font-bold text-center flex-1">Track Order #12345</h1>
+<div class="w-8"></div>
+</header>
+<main class="flex-grow p-4 space-y-6">
+<section class="p-6 bg-[var(--primary-color)] rounded-xl">
+<div class="flex justify-between items-center mb-2">
+<p class="text-lg font-bold text-[var(--text-primary)]">Delivered</p>
+<p class="text-sm text-[var(--text-secondary)]">Est: 10:00 AM</p>
+</div>
+<div class="w-full bg-[var(--accent-color)] rounded-full h-2.5">
+<div class="bg-[var(--text-primary)] h-2.5 rounded-full" style="width: 100%"></div>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-start">
+<div class="flex flex-col items-center mr-4">
+<div class="flex items-center justify-center size-8 rounded-full bg-[var(--text-primary)] text-[var(--background-color)]">
+<svg class="bi bi-check-lg" fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"></path>
+</svg>
+</div>
+<div class="w-0.5 h-16 bg-[var(--accent-color)]"></div>
+</div>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Order Placed</p>
+<p class="text-sm text-[var(--text-secondary)]">We have received your order.</p>
+<p class="text-xs text-gray-400">08:00 AM</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex flex-col items-center mr-4">
+<div class="flex items-center justify-center size-8 rounded-full bg-[var(--text-primary)] text-[var(--background-color)]">
+<svg class="bi bi-check-lg" fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"></path>
+</svg>
+</div>
+<div class="w-0.5 h-16 bg-[var(--accent-color)]"></div>
+</div>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Order Shipped</p>
+<p class="text-sm text-[var(--text-secondary)]">Your order is on its way.</p>
+<p class="text-xs text-gray-400">09:00 AM</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex flex-col items-center mr-4">
+<div class="flex items-center justify-center size-8 rounded-full bg-[var(--text-primary)] text-[var(--background-color)]">
+<svg class="bi bi-check-lg" fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"></path>
+</svg>
+</div>
+</div>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Delivered</p>
+<p class="text-sm text-[var(--text-secondary)]">Your order has been delivered.</p>
+<p class="text-xs text-gray-400">10:00 AM</p>
+</div>
+</div>
+</section>
+<div class="border-t border-[var(--accent-color)]"></div>
+<section>
+<h2 class="text-lg font-bold mb-4 text-[var(--text-primary)]">Delivery Details</h2>
+<div class="space-y-4">
+<div class="flex items-center">
+<div class="p-3 bg-[var(--primary-color)] rounded-full mr-4">
+<svg class="text-[var(--text-primary)]" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
+</svg>
+</div>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Delivery Address</p>
+<p class="text-sm text-[var(--text-secondary)]">123 Main Street, Mumbai, India</p>
+</div>
+</div>
+<div class="flex items-center">
+<img alt="Delivery Person" class="w-10 h-10 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNtneVkpZKeZYIflsASPmjH2-VdShU7zRE-bUhKuEE0CNGQUMceya1rxNq105Lt6pEbo8p0YkCqUDejTEYr17NI5Lc6PZV7xx5nGfS3hIAQ3YtkqyCLdtO6DNN4Dm2cDaJcQrv6yThGfLmGBdOwhL9JtsU4XMK8F6ziNjzVTJ0FvhKu2M2ycGyfbSJRf6M5iSovpk-l5T_WcSY2iVTZQYcUCgIX89kkLNf2yyRBwRhwMPuA0b9TRvRh7W4lrH2BjZQ4Gip0JmXSPI"/>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Delivery Person</p>
+<p class="text-sm text-[var(--text-secondary)]">Rohan Sharma</p>
+</div>
+</div>
+</div>
+</section>
+<div class="border-t border-[var(--accent-color)]"></div>
+<section>
+<h2 class="text-lg font-bold mb-4 text-[var(--text-primary)]">Order Summary</h2>
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Potatoes</p>
+<p class="text-sm text-[var(--text-secondary)]">5 kg</p>
+</div>
+<p class="font-semibold text-[var(--text-primary)]">₹150</p>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Onions</p>
+<p class="text-sm text-[var(--text-secondary)]">2 kg</p>
+</div>
+<p class="font-semibold text-[var(--text-primary)]">₹80</p>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Tomatoes</p>
+<p class="text-sm text-[var(--text-secondary)]">1 kg</p>
+</div>
+<p class="font-semibold text-[var(--text-primary)]">₹60</p>
+</div>
+</div>
+<div class="border-t border-dashed border-[var(--accent-color)] my-4"></div>
+<div class="flex justify-between items-center font-bold">
+<p class="text-[var(--text-primary)]">Total</p>
+<p class="text-[var(--text-primary)]">₹290</p>
+</div>
+</section>
+<div class="border-t border-[var(--accent-color)]"></div>
+<section>
+<h2 class="text-lg font-bold mb-4 text-[var(--text-primary)]">Payment Information</h2>
+<div class="flex items-center">
+<svg class="text-[var(--text-primary)] mr-3" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M208,80H48A16,16,0,0,0,32,96v96a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80Zm0,112H48V96H208v96ZM184,40H72A16,16,0,0,0,56,56v8H48a24,24,0,0,0-24,24v96a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V96a24,24,0,0,0-24-24h-8V56A16,16,0,0,0,184,40ZM72,56H184V64H72Z"></path>
+</svg>
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Paid with UPI</p>
+<p class="text-sm text-[var(--text-secondary)] transaction-id" title="Click to copy">Transaction ID: 9876543210</p>
+</div>
+</div>
+</section>
+</main>
+</div>
+<footer class="sticky bottom-0 bg-[var(--background-color)] p-4 border-t border-[var(--accent-color)]">
+<div class="flex gap-4">
+<button class="button_secondary w-full">Contact Support</button>
+<button class="button_primary w-full">Reorder</button>
+</div>
+</footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Load order data from localStorage
+    const orderData = JSON.parse(localStorage.getItem('orderData') || '{}');
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId') || orderData.orderId || '12345';
+    
+    // Update order ID in header
+    const headerTitle = document.querySelector('h1');
+    if (headerTitle) {
+        headerTitle.textContent = `Track Order #${orderId}`;
+    }
+    
+    // Update order summary if data exists
+    if (orderData.items && orderData.items.length > 0) {
+        const orderSummaryContainer = document.querySelector('.space-y-3');
+        if (orderSummaryContainer) {
+            orderSummaryContainer.innerHTML = orderData.items.map(item => `
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold text-[var(--text-primary)]">${item.name}</p>
+                        <p class="text-sm text-[var(--text-secondary)]">${item.quantity} kg</p>
+                    </div>
+                    <p class="font-semibold text-[var(--text-primary)]">₹${(parseInt(item.price.match(/₹(\d+)/)?.[1] || 0) * item.quantity)}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Update total
+        const totalElement = document.querySelector('.flex.justify-between.items-center.font-bold p:last-child');
+        if (totalElement && orderData.total) {
+            totalElement.textContent = `₹${orderData.total}`;
+        }
+    }
+    
+    // Back button functionality
+    const backButton = document.querySelector('header button');
+    backButton.addEventListener('click', () => window.history.back());
+
+    // Reorder button functionality
+    const reorderButton = document.querySelector('button.button_primary');
+    reorderButton.addEventListener('click', () => {
+        reorderButton.classList.add('processing');
+        reorderButton.textContent = 'Processing...';
+        setTimeout(() => {
+            window.location.href = 'checkoutpage.html';
+        }, 1000);
+    });
+
+    // Contact support button functionality
+    const supportButton = document.querySelector('button.button_secondary');
+    supportButton.addEventListener('click', () => {
+        window.location.href = 'help&resources.html';
+    });
+
+    // Add copy functionality for Transaction ID
+    const transactionInfo = document.querySelector('.transaction-id');
+    if (transactionInfo) {
+        transactionInfo.style.cursor = 'pointer';
+        transactionInfo.title = 'Click to copy Transaction ID';
+        transactionInfo.addEventListener('click', () => {
+            const id = transactionInfo.textContent.split(': ')[1];
+            navigator.clipboard.writeText(id);
+            
+            const originalText = transactionInfo.textContent;
+            transactionInfo.textContent = 'Transaction ID copied!';
+            transactionInfo.style.color = 'green';
+            
+            setTimeout(() => {
+                transactionInfo.textContent = originalText;
+                transactionInfo.style.color = '';
+            }, 2000);
+        });
+    }
+
+    // Animate progress timeline on load
+    const timelineItems = document.querySelectorAll('.w-0.5.h-16');
+    timelineItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.transform = 'scaleY(1)';
+        }, index * 300);
+    });
+});
+</script>
+
+</body></html>

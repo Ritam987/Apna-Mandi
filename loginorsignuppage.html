@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="e    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .otp-input::-webkit-inner-spin-button,
+        .otp-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .otp-input {
+            -moz-appearance: textfield;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .input-error {
+            border-color: #dc2626 !important;
+        }
+        .shake {
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>harset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Log in or Sign up</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #FFC700;
+            --background-color: #ffffff;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B7280;
+            --input-bg-color: #F3F4F6;
+            --light-bg-color: #FFF9E6; 
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+        .input {
+            @apply border-0 bg-[var(--input-bg-color)] rounded-lg px-4 py-3 text-base text-[var(--text-primary)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)];
+        }
+        .button_primary {
+            @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-lg px-4 py-3 font-semibold hover:bg-yellow-400 transition-colors duration-300;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .otp-input::-webkit-inner-spin-button,
+        .otp-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .otp-input {
+            -moz-appearance: textfield;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--background-color)]">
+<div class="flex flex-col min-h-screen">
+<main class="flex-grow flex flex-col items-center justify-center p-6">
+<div class="w-full max-w-sm text-center">
+<div class="mb-8 flex justify-center">
+<div class="w-48 h-48 rounded-full bg-[var(--light-bg-color)] flex items-center justify-center shadow-lg">
+<img alt="Burger on a plate" class="w-36 h-36 rounded-full object-cover shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpnVAlI69KX_q2P7gNYGhypM4kAYq23wT5T4N4BnjekImWCQET00fzkFSpmnmhqadgY2adS_oLJ_5ADJTm7VyZkqeeXiRORffEnRvYPcoeGED8i3iQ2tCFxR5tuZQU0CKNv8RrRowlWBgOquyyO2qIU42mgA6_Vc388dAowZSwYA9nhrBkiHTWLw4NSbSHL15PZjPAf-v45gPijzLucG97yD2cTD1gjin95hjF3SGxcxOa-ElnDUHpJ4F28Ck4_wkl2tYZ3g_Ondc"/>
+</div>
+</div>
+<h1 class="text-3xl font-bold text-[var(--text-primary)] mb-2">Vendor Hub</h1>
+<p class="text-base text-[var(--text-secondary)] mb-10">Wholesale Prices at Your Fingertips.</p>
+<div id="mobile-input-view">
+<h2 class="text-2xl font-bold text-[var(--text-primary)] mb-2">Login or Sign Up</h2>
+<p class="text-[var(--text-secondary)] mb-8">Enter your mobile number to receive a verification code.</p>
+<div class="relative mb-6">
+<input class="input w-full px-4 py-3 text-base text-left" id="mobile-number" name="phone" placeholder="Enter your mobile number" type="tel"/>
+<div class="error-message" id="mobile-error">Please enter a valid 10-digit mobile number</div>
+</div>
+<button type="submit" class="button_primary w-full py-3 text-base" id="send-otp-btn" aria-label="Continue to verification">
+  <span class="button-content">
+    <span>Get OTP</span>
+    <span class="spinner hidden" id="otp-spinner"></span>
+  </span>
+</button>
+</div>
+<div class="hidden" id="otp-view">
+<h2 class="text-2xl font-bold text-[var(--text-primary)] mb-2">Verify your number</h2>
+<p class="text-[var(--text-secondary)] mb-6">Enter the 4-digit code sent to <br/><span class="font-semibold text-[var(--text-primary)]" id="display-mobile-number">+91 98765 43210</span></p>
+<div class="flex justify-center gap-3 mb-6" id="otp-inputs">
+<input class="otp-input w-14 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-lg focus:border-[var(--primary-color)] focus:ring-0" maxlength="1" type="number"/>
+<input class="otp-input w-14 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-lg focus:border-[var(--primary-color)] focus:ring-0" maxlength="1" type="number"/>
+<input class="otp-input w-14 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-lg focus:border-[var(--primary-color)] focus:ring-0" maxlength="1" type="number"/>
+<input class="otp-input w-14 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-lg focus:border-[var(--primary-color)] focus:ring-0" maxlength="1" type="number"/>
+</div>
+<button class="button_primary w-full py-3 text-base" id="verify-otp-btn">
+                    Verify
+                </button>
+<p class="text-sm text-[var(--text-secondary)] mt-4">
+                    Didn't receive the code? <button class="font-semibold text-[var(--primary-color)] hover:underline" id="resend-otp-btn">Resend</button>
+</p>
+</div>
+
+<!-- User Data Form View -->
+<div class="hidden" id="user-data-view">
+    <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-2">Complete Your Profile</h2>
+    <p class="text-[var(--text-secondary)] mb-8">Please provide your details to continue</p>
+    
+    <form id="user-data-form" class="space-y-6">
+        <div>
+            <label for="fullName" class="block text-sm font-medium text-left text-[var(--text-primary)] mb-1">Full Name</label>
+            <input 
+                type="text" 
+                id="fullName" 
+                name="fullName" 
+                required
+                class="input w-full"
+                placeholder="Enter your full name"
+            />
+        </div>
+
+        <div>
+            <label for="age" class="block text-sm font-medium text-left text-[var(--text-primary)] mb-1">Age</label>
+            <input 
+                type="number" 
+                id="age" 
+                name="age" 
+                required
+                min="18"
+                max="120"
+                class="input w-full"
+                placeholder="Enter your age"
+            />
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-left text-[var(--text-primary)] mb-1">Gender</label>
+            <div class="flex gap-4 mt-2">
+                <label class="flex items-center">
+                    <input type="radio" name="gender" value="male" required class="mr-2"/>
+                    <span>Male</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="gender" value="female" required class="mr-2"/>
+                    <span>Female</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="gender" value="other" required class="mr-2"/>
+                    <span>Other</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-medium text-left text-[var(--text-primary)] mb-1">Email Address (Optional)</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email"
+                class="input w-full"
+                placeholder="Enter your email address"
+            />
+        </div>
+
+        <div>
+            <label for="address" class="block text-sm font-medium text-left text-[var(--text-primary)] mb-1">Address</label>
+            <textarea 
+                id="address" 
+                name="address" 
+                required
+                rows="3"
+                class="input w-full"
+                placeholder="Enter your full address"
+            ></textarea>
+        </div>
+
+        <button type="submit" class="button_primary w-full py-3 text-base">
+            Create Profile
+        </button>
+    </form>
+</div>
+</div>
+</main>
+<footer class="p-4">
+<p class="text-xs text-[var(--text-secondary)] text-center max-w-xs mx-auto">
+            By continuing, you agree to our <a class="font-medium text-[var(--text-primary)] underline" href="#">Terms</a> &amp; <a class="font-medium text-[var(--text-primary)] underline" href="#">Privacy Policy</a>.
+        </p>
+</footer>
+</div>
+<script>
+    // Dummy script to toggle between views for demonstration
+    const mobileInputView = document.getElementById('mobile-input-view');
+    const otpView = document.getElementById('otp-view');
+    const sendOtpBtn = document.getElementById('send-otp-btn');
+    const mobileNumberInput = document.getElementById('mobile-number');
+    const displayMobileNumber = document.getElementById('display-mobile-number');
+    sendOtpBtn.addEventListener('click', () => {
+        const mobileNumber = mobileNumberInput.value;
+        if(mobileNumber && /^\d{10}$/.test(mobileNumber)) { // Basic validation
+            displayMobileNumber.textContent = `+91 ${mobileNumber.slice(0, 5)} ${mobileNumber.slice(5)}`;
+            mobileInputView.classList.add('hidden');
+            otpView.classList.remove('hidden');
+        } else {
+            alert('Please enter a valid 10-digit mobile number.');
+        }
+    });
+    const otpInputs = document.getElementById('otp-inputs').querySelectorAll('input');
+    const resendOtpBtn = document.getElementById('resend-otp-btn');
+    const verifyOtpBtn = document.getElementById('verify-otp-btn');
+    let resendTimeout = 30;
+    
+    function startResendTimer() {
+        resendOtpBtn.disabled = true;
+        let timeLeft = resendTimeout;
+        resendOtpBtn.textContent = `Resend in ${timeLeft}s`;
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                resendOtpBtn.disabled = false;
+                resendOtpBtn.textContent = 'Resend';
+            } else {
+                resendOtpBtn.textContent = `Resend in ${timeLeft}s`;
+            }
+        }, 1000);
+    }
+
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (!/^\d*$/.test(e.target.value)) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            }
+            
+            if (e.target.value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+                
+                // Check if all inputs are filled
+                const isComplete = Array.from(otpInputs).every(input => input.value.length === 1);
+                if (isComplete) {
+                    verifyOtpBtn.disabled = false;
+                }
+            }
+        });
+        
+        input.addEventListener('keydown', (e) => {
+            if(e.key === "Backspace" && e.target.value.length === 0 && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+    });
+
+    // Start timer when OTP view is shown
+    startResendTimer();
+
+    resendOtpBtn.addEventListener('click', () => {
+        // Clear OTP inputs
+        otpInputs.forEach(input => input.value = '');
+        otpInputs[0].focus();
+        
+        // Restart timer
+        startResendTimer();
+    });
+
+    verifyOtpBtn.addEventListener('click', () => {
+        const otp = Array.from(otpInputs).map(input => input.value).join('');
+        verifyOtpBtn.disabled = true;
+        
+        // Add spinner to verify button
+        verifyOtpBtn.innerHTML = `
+            <span class="button-content">
+                <span>Verifying</span>
+                <span class="spinner"></span>
+            </span>
+        `;
+        
+        // Simulate verification
+        setTimeout(() => {
+            // Here you would typically make an API call to verify the OTP
+            verifyOtpBtn.innerHTML = 'Verify';
+            verifyOtpBtn.disabled = false;
+            
+            // Show the user data form
+            otpView.classList.add('hidden');
+            userDataView.classList.remove('hidden');
+        }, 1500);
+    });
+
+    // User Data Form Handling
+    const userDataView = document.getElementById('user-data-view');
+    const userDataForm = document.getElementById('user-data-form');
+    
+    userDataForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(userDataForm);
+        const userData = Object.fromEntries(formData);
+        
+        // Add the mobile number from the first step
+        const mobileNumber = document.getElementById('mobile-number').value;
+        userData.phone = mobileNumber;
+        
+        // Ensure all required fields are present
+        if (!userData.fullName || !userData.phone) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = userDataForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="button-content">
+                <span>Saving</span>
+                <span class="spinner"></span>
+            </span>
+        `;
+        
+        // Simulate API call
+        setTimeout(() => {
+            // Store user data in localStorage for future use
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show success message briefly then redirect
+            submitBtn.innerHTML = `
+                <span class="button-content">
+                    <span>Success!</span>
+                    <span>✓</span>
+                </span>
+            `;
+            
+            setTimeout(() => {
+                // Redirect to location page
+                window.location.href = 'locationpage.html';
+            }, 1500);
+        }, 1500);
+    });
+</script>
+</body></html>
+<style>
+    /* Add this to your existing styles */
+    .spinner {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+</style>
+<script>
+    // Enhanced script with better validation and feedback
+    const mobileError = document.getElementById('mobile-error');
+    
+    mobileNumberInput.addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value) {
+            if (!/^\d*$/.test(value)) {
+                e.target.value = value.replace(/\D/g, '');
+            }
+            if (value.length > 10) {
+                e.target.value = value.slice(0, 10);
+            }
+        }
+        // Clear error state on input
+        mobileError.style.display = 'none';
+        mobileNumberInput.classList.remove('input-error');
+    });
+
+    sendOtpBtn.addEventListener('click', () => {
+        const mobileNumber = mobileNumberInput.value;
+        if(mobileNumber && /^\d{10}$/.test(mobileNumber)) {
+            // Show loading spinner
+            document.getElementById('otp-spinner').classList.remove('hidden');
+            sendOtpBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Format the mobile number with spaces for better readability
+                displayMobileNumber.textContent = `${mobileNumber.slice(0, 5)} ${mobileNumber.slice(5)}`;
+                mobileInputView.classList.add('hidden');
+                otpView.classList.remove('hidden');
+                
+                // Hide loading spinner
+                document.getElementById('otp-spinner').classList.add('hidden');
+                sendOtpBtn.disabled = false;
+                
+                // Focus first OTP input
+                otpInputs[0].focus();
+            }, 1500);
+        } else {
+            // Show error message with animation
+            mobileError.style.display = 'block';
+            mobileNumberInput.classList.add('input-error', 'shake');
+            setTimeout(() => {
+                mobileNumberInput.classList.remove('shake');
+            }, 820);
+        }
+    });
+</script>

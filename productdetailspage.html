@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Product details</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #f9f9f0;
+        --background-color: #ffffff;
+        --text-primary: #333333;
+        --text-secondary: #666666;
+        --accent-color: #e0e0d1;
+        --button-primary: #333333;
+        --button-primary-text: #ffffff;
+        --button-secondary: #f9f9f0;
+        --button-secondary-text: #333333;
+        --border-color: #cccccc;
+      }
+      body {
+        font-family: 'Spline Sans', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-primary);
+      }
+      .main_container {
+        @apply max-w-md mx-auto w-full px-4;
+      }
+      .card {
+        @apply bg-white rounded-lg shadow-md p-4;
+      }
+      .button_primary {
+        @apply bg-[var(--button-primary)] text-[var(--button-primary-text)] rounded-full px-4 py-3 font-semibold text-center w-full;
+      }
+      .button_secondary {
+        @apply bg-[var(--button-secondary)] text-[var(--button-secondary-text)] rounded-full px-4 py-2 hover:bg-gray-100;
+      }
+      .input {
+        @apply border border-[var(--border-color)] rounded-full px-4 py-2 focus:outline-none focus:border-[var(--primary-color)];
+      }
+      .typography_h1 {
+        @apply text-2xl font-bold text-[var(--text-primary)];
+      }
+      .typography_h2 {
+        @apply text-xl font-semibold text-[var(--text-primary)];
+      }
+      .typography_body {
+        @apply text-base text-[var(--text-secondary)];
+      }
+      .product_image {
+        @apply w-full h-64 object-cover rounded-2xl mb-4;
+      }
+      .product_name {
+        @apply text-2xl font-bold text-[var(--text-primary)];
+      }
+      .product_seller {
+        @apply text-sm text-[var(--text-secondary)];
+      }
+      .product_price {
+        @apply text-xl font-bold text-[var(--text-primary)];
+      }
+      .quantity_selector {
+        @apply flex items-center justify-between p-3 rounded-xl bg-[var(--primary-color)];
+      }
+      .quantity_button {
+        @apply bg-white rounded-full h-8 w-8 flex items-center justify-center text-lg font-bold text-[var(--text-primary)] shadow-sm;
+      }
+      .product_details {
+        @apply mt-6 border-t border-gray-200 pt-6;
+      }
+      .product_details_title {
+        @apply text-lg font-semibold text-[var(--text-primary)] mb-2;
+      }
+      .product_details_text {
+        @apply text-base text-[var(--text-secondary)];
+      }
+      .review_section {
+        @apply mt-6 border-t border-gray-200 pt-6;
+      }
+      .review_title {
+        @apply text-lg font-semibold text-[var(--text-primary)] mb-2;
+      }
+      .review_text {
+        @apply text-base text-[var(--text-secondary)];
+      }
+      .back_button {
+        @apply flex items-center gap-2 text-[var(--text-primary)] font-semibold;
+      }
+      .menu_bar {
+        @apply fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around items-center py-3 px-2 backdrop-blur-sm bg-white/95;
+      }
+      .menu_item {
+        @apply flex flex-col items-center gap-1.5 text-xs text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--text-primary)] active:scale-95 py-1;
+      }
+      .menu_icon {
+        @apply h-6 w-6 transition-transform duration-200;
+      }
+      .menu_item:hover .menu_icon {
+        @apply scale-110;
+      }
+      .menu_item.active {
+        @apply text-[var(--text-primary)];
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+  function updateQuantity(change) {
+    const quantityEl = document.getElementById('quantity');
+    let currentQty = parseInt(quantityEl.textContent);
+    currentQty = Math.max(1, currentQty + change);
+    quantityEl.textContent = currentQty + ' kg';
+    
+    // Update price
+    updateTotalPrice(currentQty);
+  }
+
+  function updateTotalPrice(quantity) {
+    const basePrice = 45; // Price per kg
+    const priceEl = document.querySelector('.product_price');
+    priceEl.textContent = '₹ ' + (basePrice * quantity) + ' / kg';
+  }
+
+  function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').textContent);
+    const addButton = document.querySelector('.button_primary');
+    
+    // Get product data
+    const productName = document.querySelector('.product_name').textContent;
+    const productPrice = document.querySelector('.product_price').textContent;
+    const productImage = document.querySelector('.w-full.h-64.bg-center.bg-no-repeat.bg-cover').style.backgroundImage;
+    const productSeller = document.querySelector('.product_seller').textContent.replace('Sold by: ', '');
+    
+    // Create cart item
+    const cartItem = {
+      id: Date.now(), // Unique ID for the cart item
+      name: productName,
+      price: productPrice,
+      image: productImage,
+      seller: productSeller,
+      quantity: quantity,
+      addedAt: new Date().toISOString()
+    };
+    
+    // Get existing cart items
+    let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    
+    // Check if item already exists in cart
+    const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+    
+    if (existingItemIndex !== -1) {
+      // Update quantity if item already exists
+      cartItems[existingItemIndex].quantity += quantity;
+    } else {
+      // Add new item to cart
+      cartItems.push(cartItem);
+    }
+    
+    // Save updated cart
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    // Visual feedback
+    addButton.textContent = 'Added to Cart!';
+    addButton.classList.add('bg-green-600');
+    
+    setTimeout(() => {
+      addButton.textContent = 'Add to Hub Cart';
+      addButton.classList.remove('bg-green-600');
+      
+      // Redirect to cart page after showing success message
+      setTimeout(() => {
+        window.location.href = 'hubcartpage.html';
+      }, 500);
+    }, 2000);
+  }
+
+  // Load product data and populate the page
+  document.addEventListener('DOMContentLoaded', () => {
+    // Handle back button
+    const backButton = document.querySelector('.back_button');
+    if (backButton) {
+      backButton.addEventListener('click', () => {
+        // Check if there's a previous page in history
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          // If no previous page, go to homepage
+          window.location.href = 'Homepage.html';
+        }
+      });
+    }
+    const productData = localStorage.getItem('selectedProduct');
+    
+    if (productData) {
+      const product = JSON.parse(productData);
+      
+      // Update product image
+      const productImage = document.querySelector('.w-full.h-64.bg-center.bg-no-repeat.bg-cover');
+      if (productImage && product.image) {
+        productImage.style.backgroundImage = product.image;
+      }
+      
+      // Update product name
+      const productName = document.querySelector('.product_name');
+      if (productName) {
+        productName.textContent = product.name;
+      }
+      
+      // Update seller
+      const productSeller = document.querySelector('.product_seller');
+      if (productSeller) {
+        productSeller.textContent = 'Sold by: ' + product.seller;
+      }
+      
+      // Update price
+      const productPrice = document.querySelector('.product_price');
+      if (productPrice) {
+        productPrice.textContent = product.price;
+      }
+      
+      // Update description based on product category
+      const productDescription = document.querySelector('.product_details_text');
+      if (productDescription) {
+        if (product.category === 'vegetables') {
+          productDescription.textContent = `Freshly harvested ${product.name.toLowerCase()}, perfect for cooking and salads. Sourced directly from local farms.`;
+        } else if (product.category === 'spices') {
+          productDescription.textContent = `Premium quality ${product.name.toLowerCase()}, carefully selected and packaged. Perfect for authentic Indian cooking.`;
+        } else {
+          productDescription.textContent = `High-quality ${product.name.toLowerCase()}, sourced from trusted vendors.`;
+        }
+      }
+      
+      // Update review based on product category
+      const productReview = document.querySelector('.review_text');
+      if (productReview) {
+        if (product.category === 'vegetables') {
+          productReview.textContent = `Excellent quality ${product.name.toLowerCase()}, very fresh and flavorful. Highly recommended!`;
+        } else if (product.category === 'spices') {
+          productReview.textContent = `Authentic taste and aroma. Perfect for traditional recipes. Great value for money!`;
+        } else {
+          productReview.textContent = `Great quality product, exactly as described. Very satisfied with the purchase!`;
+        }
+      }
+      
+      // Clear the stored product data after using it
+      localStorage.removeItem('selectedProduct');
+    }
+
+    // Mark current page in menu
+    const menuItems = document.querySelectorAll('.menu_item');
+    menuItems.forEach(item => {
+      if (item.querySelector('span').textContent === 'Hub Cart') {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
+<body class="bg-background-color text-text-primary">
+<div class="relative flex min-h-screen flex-col justify-between max-w-md mx-auto w-full">
+<div class="pt-4 pb-28 px-4 w-full">
+<div class="flex items-center justify-between mb-4">
+<button class="back_button">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="typography_h2 absolute left-1/2 -translate-x-1/2">Product Details</h1>
+</div>
+<div class="w-full h-64 bg-center bg-no-repeat bg-cover rounded-2xl mb-6" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXGEfZOunHvkfLG7t-2I-AHhtmqPPd45pCMc3oHSpAr9M3xhKKvqi81D0sSArehx32vzz5E-77VshmevreTmZ2Zv3hbUxFeDjq453yej2AGgmSjWFePNJ2PjLoFedMaOkp_S-VSJZ-g8MYFxDBuzeyUxsxCwxHhrWGV5JwKv6mL6QSdCRCeT4p_dIwuevKOkJpj77J57DyEXLQDQ5DlCvPTiDLBRRo-IHrss6FOe0yaPR9c2FhUjYmZaZ-9V-fIbu63pfGbwmWVv4");'></div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h2 class="product_name">Fresh Tomatoes</h2>
+<p class="product_seller">Sold by: Fresh Farms</p>
+</div>
+<p class="product_price">₹ 45 / kg</p>
+</div>
+<div class="quantity_selector my-6">
+<p class="text-lg font-semibold text-[var(--text-primary)]">Quantity</p>
+<div class="flex items-center gap-4">
+<button class="quantity_button hover:bg-gray-100 active:bg-gray-200 transition-colors" onclick="updateQuantity(-1)">-</button>
+<span id="quantity" class="text-lg font-bold text-[var(--text-primary)]">1 kg</span>
+<button class="quantity_button hover:bg-gray-100 active:bg-gray-200 transition-colors" onclick="updateQuantity(1)">+</button>
+</div>
+</div>
+<div class="product_details">
+<h3 class="product_details_title">Product Information</h3>
+<p class="product_details_text">
+            Freshly harvested tomatoes, perfect for cooking and salads. Sourced directly from local farms.
+          </p>
+</div>
+<div class="review_section">
+<h3 class="review_title">Review</h3>
+<p class="review_text">
+            Excellent quality tomatoes, very fresh and flavorful. Highly recommended!
+          </p>
+</div>
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 w-full max-w-[calc(100%-2rem)] mx-auto">
+<button onclick="addToCart()" class="button_primary transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg active:shadow-md">Add to Hub Cart</button>
+</div>
+</div>
+<div class="menu_bar">
+<a class="menu_item text-[var(--text-primary)]" href="Homepage.html">
+<svg class="menu_icon" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path></svg>
+<span>Home</span>
+</a>
+<a class="menu_item" href="searchfeedpage.html">
+<svg class="menu_icon" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"></path></svg>
+<span>Categories</span>
+</a>
+<a class="menu_item" href="hubcartpage.html">
+<svg class="menu_icon" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path></svg>
+<span>Hub Cart</span>
+</a>
+<a class="menu_item" href="specialofferspage.html">
+<svg class="menu_icon" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"></path></svg>
+<span>Surplus</span>
+</a>
+<a class="menu_item" href="accountorprofilepage.html">
+<svg class="menu_icon" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>
+<span>Profile</span>
+</a>
+</div>
+</div>
+
+</body></html>

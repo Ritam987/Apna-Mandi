@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<meta name="theme-color" content="#FFFAEF"/>
+<title>My Wishlist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+          --primary-color: #FDE68A;
+          --background-color: #FFFAEF;
+          --text-primary: #333333;
+          --text-secondary: #737373;
+          --accent-color: #FBBF24;
+          --white: #FFFFFF;
+          --gray-100: #F3F4F6;
+          --gray-500: #6B7280;
+        }
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background-color: var(--background-color);
+        }
+        .button_primary {
+            @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-full px-6 py-3 hover:bg-[var(--accent-color)] transition duration-200;
+        }
+        .button_secondary {
+            @apply bg-[var(--white)] text-[var(--text-primary)] rounded-full px-6 py-3 border border-[var(--primary-color)] hover:bg-[var(--accent-color)] transition duration-200;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Back button functionality
+    const backButton = document.querySelector('header button');
+    backButton.addEventListener('click', () => window.history.back());
+
+    // Edit button functionality (right header button)
+    const editButton = document.querySelector('header button:last-child');
+    editButton.addEventListener('click', () => {
+        // Toggle edit mode
+        const isEditMode = document.body.classList.toggle('edit-mode');
+        editButton.innerHTML = isEditMode ? 
+            '<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M5 13l4 4L19 7"/></svg>' :
+            '<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+    });
+
+    // Add to Cart functionality
+    const addToCartButtons = document.querySelectorAll('.button_primary');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.closest('.bg-white');
+            const itemName = item.querySelector('h3').textContent;
+            const itemPrice = item.querySelector('p:nth-child(2)').textContent;
+            const itemImage = item.querySelector('img').src;
+            const itemVendor = item.querySelector('p:last-child').textContent.replace('Vendor: ', '');
+            
+            // Create cart item
+            const cartItem = {
+                id: Date.now() + Math.random(),
+                name: itemName,
+                price: itemPrice,
+                image: `url("${itemImage}")`,
+                seller: itemVendor,
+                quantity: 1,
+                addedAt: new Date().toISOString(),
+                fromWishlist: true
+            };
+            
+            // Add to localStorage
+            let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const existingItemIndex = cartItems.findIndex(item => item.name === itemName);
+            
+            if (existingItemIndex !== -1) {
+                cartItems[existingItemIndex].quantity += 1;
+            } else {
+                cartItems.push(cartItem);
+            }
+            
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            this.innerHTML = '<span class="flex items-center gap-2">Added <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span>';
+            this.classList.add('bg-green-100', 'text-green-800');
+            
+            setTimeout(() => {
+                this.textContent = 'Add to Cart';
+                this.classList.remove('bg-green-100', 'text-green-800');
+            }, 2000);
+        });
+    });
+
+    // Remove functionality with animation
+    const removeButtons = document.querySelectorAll('button.text-red-500');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.closest('.bg-white');
+            item.style.animation = 'slideOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                item.remove();
+                updateWishlistCount();
+                
+                // Show empty state if no items left
+                const remainingItems = document.querySelectorAll('.bg-white').length;
+                if (remainingItems === 0) {
+                    showEmptyState();
+                }
+            }, 300);
+        });
+    });
+
+    // Update wishlist count
+    function updateWishlistCount() {
+        const items = document.querySelectorAll('.bg-white').length;
+        const title = document.querySelector('h1');
+        title.textContent = `My Wishlist (${items})`;
+    }
+
+    // Show empty state
+    function showEmptyState() {
+        const container = document.querySelector('.p-4');
+        container.innerHTML = `
+            <div class="text-center py-16">
+                <div class="bg-gray-50 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Your wishlist is empty</h3>
+                <p class="text-gray-500 mb-6">Start adding items you love to your wishlist!</p>
+                <button onclick="window.location.href='searchfeedpage.html'" class="button_primary px-8 py-3">
+                    Browse Products
+                </button>
+            </div>
+        `;
+    }
+
+    // Navigation functionality
+    const homeLink = document.querySelector('a[href="#"]:first-child');
+    if (homeLink) {
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Homepage.html';
+        });
+    }
+
+    const categoriesLink = document.querySelector('a[href="#"]:nth-child(2)');
+    if (categoriesLink) {
+        categoriesLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'searchfeedpage.html';
+        });
+    }
+
+    const cartLink = document.querySelector('a[href="#"]:nth-child(3)');
+    if (cartLink) {
+        cartLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'hubcartpage.html';
+        });
+    }
+
+    const surplusLink = document.querySelector('a[href="#"]:nth-child(4)');
+    if (surplusLink) {
+        surplusLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'specialofferspage.html';
+        });
+    }
+
+    const profileLink = document.querySelector('a[href="#"]:last-child');
+    if (profileLink) {
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'accountorprofilepage.html';
+        });
+    }
+
+    // Add touch ripple effect
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            ripple.style.left = e.clientX - rect.left + 'px';
+            ripple.style.top = e.clientY - rect.top + 'px';
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Load wishlist from localStorage if available
+    loadWishlistFromStorage();
+});
+
+function loadWishlistFromStorage() {
+    const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+    if (wishlistItems.length > 0) {
+        // Update the display with items from localStorage
+        updateWishlistDisplay(wishlistItems);
+    }
+}
+
+function updateWishlistDisplay(items) {
+    const container = document.querySelector('.p-4');
+    if (items.length === 0) {
+        showEmptyState();
+        return;
+    }
+    
+    container.innerHTML = items.map(item => `
+        <div class="bg-white rounded-2xl shadow-sm p-4 flex items-center gap-4">
+            <img alt="${item.name}" class="w-20 h-20 rounded-xl object-cover" src="${item.image}"/>
+            <div class="flex-grow">
+                <h3 class="font-bold text-lg">${item.name}</h3>
+                <p class="text-[var(--text-secondary)] text-sm">${item.price}</p>
+                <p class="text-xs text-[var(--gray-500)]">Vendor: ${item.vendor}</p>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <button class="button_primary px-4 py-2 text-sm">Add to Cart</button>
+                <button class="text-red-500 text-sm">Remove</button>
+            </div>
+        </div>
+    `).join('');
+    
+    updateWishlistCount();
+}
+</script>
+<style>
+    /* Smooth animations */
+    .bg-white {
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideOut {
+        to { opacity: 0; transform: translateX(100%); }
+    }
+
+    /* Button hover effects */
+    .button_primary, .button_secondary {
+        position: relative;
+        overflow: hidden;
+        transform: translateZ(0);
+    }
+
+    .button_primary:hover, .button_secondary:hover {
+        transform: translateY(-1px);
+    }
+
+    .button_primary:active, .button_secondary:active {
+        transform: scale(0.95);
+    }
+
+    /* Ripple effect */
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+
+    /* Image hover effect */
+    .w-20.h-20 {
+        transition: transform 0.3s ease;
+    }
+
+    .bg-white:hover .w-20.h-20 {
+        transform: scale(1.05);
+    }
+
+    /* Navigation hover effects */
+    nav a {
+        transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+        transform: translateY(-2px);
+    }
+
+    nav a:active {
+        transform: translateY(0);
+    }
+
+    /* Card hover effects */
+    .bg-white {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .bg-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+</style>
+<body class="text-[var(--text-primary)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden">
+<main class="flex-grow">
+<header class="bg-[var(--background-color)] sticky top-0 z-10 px-4 py-3 border-b border-gray-200">
+<div class="flex items-center justify-between">
+<button class="text-[var(--text-primary)]">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M192,128a8,8,0,0,1-8,8H79.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48a8,8,0,0,1,11.32,11.32L79.31,120H184A8,8,0,0,1,192,128Z"></path>
+</svg>
+</button>
+<h1 class="text-xl font-bold text-center">My Wishlist (3)</h1>
+<button class="text-[var(--text-primary)]">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+</button>
+</div>
+</header>
+<div class="p-4 space-y-4">
+<div class="bg-white rounded-2xl shadow-sm p-4 flex items-center gap-4">
+<img alt="Tomatoes" class="w-20 h-20 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfTT9JmxXyJUkfNmTGVN-IocahbNZA-icDwY_12D1HHOrzawJLKYPQ_OqV7oeOGSWKdseJ7NuUZTOf2aUM-Z7yu0DG5AOJxWD82ojCqTLpu8DcBrD_DZIGF-a8zz9oC9Zqt-YJ8YyoWbTX_1t-1wf5ANePt6DWyt_yJPBPmBnC7vVeythwSOKWvlGkRzbQxyji6NNUwRx1tpgtM71kFXSzluaqqDr7hXQSW3iEqgDM0s029_uvnyQk_EXf6IKTInc-cLQmV6vm8a0"/>
+<div class="flex-grow">
+<h3 class="font-bold text-lg">Tomatoes</h3>
+<p class="text-[var(--text-secondary)] text-sm">₹50/kg</p>
+<p class="text-xs text-[var(--gray-500)]">Vendor: Fresh Farms</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<button class="button_primary px-4 py-2 text-sm">Add to Cart</button>
+<button class="text-red-500 text-sm">Remove</button>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm p-4 flex items-center gap-4">
+<img alt="Cumin Seeds" class="w-20 h-20 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtVGtXSahICHzF5aTuW_IgL0QoXFF9p8I5WW-dy3mU_pFrsBGd6LPLkiIroobGZuQQ1FWJnB7czNTXTeDYemVOGpcmwfcilAImXNg9RMf2H4U5g-__alv9u6Ji6qFCLAkMPaQlnKWBFE97HhXh1OiFNmsxU3mP7Gex-4nhZw0JetRZuprBYpcDXtbjhNDJZmAaNuDgtttxi-9N36Wg39nWNuSBbeXn__0Pa6eFb6KyERrLIGSMDGUXTnoLJ6oO6lhS4CpCkjEwD9Q"/>
+<div class="flex-grow">
+<h3 class="font-bold text-lg">Cumin Seeds</h3>
+<p class="text-[var(--text-secondary)] text-sm">₹200/kg</p>
+<p class="text-xs text-[var(--gray-500)]">Vendor: Spice Merchants</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<button class="button_primary px-4 py-2 text-sm">Add to Cart</button>
+<button class="text-red-500 text-sm">Remove</button>
+</div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm p-4 flex items-center gap-4">
+<img alt="Paneer" class="w-20 h-20 rounded-xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8H0CiwILDAo9Q2l80awq_RxilLtB-5_z3AKUhsyJynzYhddNqqtKjoBY5AA6YkqKT2nGSOREkd9X5aP7pxyJhASvx223OZa962neZPmeA1x-oRVz1355ZuLSSq8BFUpRjtQzJNTf7-TfnVwW-0OahNEvay1BFWX6Jw5-ewwA_C1AQsqgaZ-P-ZGzccHOrk9_FAK8N3AFyJ6ZdnBHWqvxYGjX4kOixBGOGI_YEWcDiKHK0HI79RXV_OOu5liliU7206KAVwkpIjCM"/>
+<div class="flex-grow">
+<h3 class="font-bold text-lg">Paneer</h3>
+<p class="text-[var(--text-secondary)] text-sm">₹350/kg</p>
+<p class="text-xs text-[var(--gray-500)]">Vendor: Dairy Delights</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<button class="button_primary px-4 py-2 text-sm">Add to Cart</button>
+<button class="text-red-500 text-sm">Remove</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-[var(--white)] sticky bottom-0 z-10 border-t border-[var(--gray-100)]">
+<nav class="flex justify-around items-center px-4 py-2">
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+<span class="text-xs">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="7" rx="1" width="7" x="3" y="3"></rect><rect height="7" rx="1" width="7" x="14" y="3"></rect><rect height="7" rx="1" width="7" x="14" y="14"></rect><rect height="7" rx="1" width="7" x="3" y="14"></rect></svg>
+<span class="text-xs">Categories</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+<span class="text-xs">Cart</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+<span class="text-xs">Surplus</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--primary-color)]" href="#">
+<svg fill="currentColor" height="24" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+<span class="text-xs font-bold">Profile</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

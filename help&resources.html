@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Help & Resources</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #eeee06;
+        --background-color: #fefefe;
+        --text-primary: #1a1a1a;
+        --text-secondary: #4d4d4d;
+        --accent-color: #f5f5f5;
+      }
+      body {
+        font-family: 'Spline Sans', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-primary);
+      }
+      .typography_h1 {
+        @apply text-3xl font-bold text-[var(--text-primary)] mb-4;
+      }
+      .typography_h2 {
+        @apply text-2xl font-semibold text-[var(--text-primary)] mb-2;
+      }
+      .typography_body {
+        @apply text-base text-[var(--text-secondary)];
+      }
+      .button_primary {
+        @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-full px-6 py-3 font-bold;
+      }
+      .button_secondary {
+        @apply bg-[var(--accent-color)] text-[var(--text-primary)] rounded-full px-6 py-3;
+      }
+      .input {
+        @apply bg-white border border-gray-300 rounded-full px-4 py-2;
+      }
+      .icon_button {
+        @apply rounded-full p-2;
+      }
+      .navigation_bar {
+        @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 flex justify-around items-center;
+      }
+      .navigation_item {
+        @apply text-[var(--text-secondary)];
+      }
+      .section {
+        @apply bg-white p-6 mb-4;
+      }
+      .section_title {
+        @apply text-xl font-semibold text-[var(--text-primary)] mb-2;
+      }
+      .list_item {
+        @apply flex items-center py-2 border-b border-gray-100;
+      }
+      .list_item_text {
+        @apply ml-2 text-[var(--text-primary)];
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Add smooth transition to FAQ details
+    const details = document.querySelectorAll('details');
+    details.forEach(detail => {
+        detail.addEventListener('click', (e) => {
+            if (detail.open) {
+                e.preventDefault();
+                detail.classList.add('closing');
+                setTimeout(() => {
+                    detail.open = false;
+                    detail.classList.remove('closing');
+                }, 300);
+            }
+        });
+    });
+
+    // Add ripple effect to contact buttons only (not legal links)
+    const contactButtons = document.querySelectorAll('section:nth-of-type(2) .list_item');
+    contactButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Back button functionality
+    const backButton = document.querySelector('button.icon_button');
+    backButton.addEventListener('click', () => window.history.back());
+
+    // Navigation functionality
+    const homeLink = document.querySelector('a[href="#"]:first-child');
+    if (homeLink) {
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Homepage.html';
+        });
+    }
+
+    const marketLink = document.querySelector('a[href="#"]:nth-child(2)');
+    if (marketLink) {
+        marketLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'searchfeedpage.html';
+        });
+    }
+
+    const ordersLink = document.querySelector('a[href="#"]:nth-child(3)');
+    if (ordersLink) {
+        ordersLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'ordertrackingpage.html';
+        });
+    }
+
+    const accountLink = document.querySelector('a[href="#"]:last-child');
+    if (accountLink) {
+        accountLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'accountorprofilepage.html';
+        });
+    }
+
+    // Add functionality to contact links
+    const phoneLink = document.querySelector('a[href="tel:+919876543210"]');
+    if (phoneLink) {
+        phoneLink.addEventListener('click', (e) => {
+            // Phone link will work automatically
+            console.log('Calling support...');
+        });
+    }
+
+    // Fix live chat link - target the correct element in contact section
+    const contactLinks = document.querySelectorAll('section:nth-of-type(2) a');
+    const chatLink = contactLinks[2]; // Third link in contact section
+    if (chatLink) {
+        chatLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Live chat feature coming soon!');
+            // Don't redirect anywhere, stay on the current page
+        });
+    }
+
+    // Add functionality to legal links with custom content
+    const legalSection = document.querySelector('section:nth-of-type(3)');
+    const legalLinks = legalSection.querySelectorAll('a');
+    
+    if (legalLinks.length >= 3) {
+        // Terms of Service
+        legalLinks[0].addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Terms of Service\n\n1. Acceptance of Terms\nBy accessing and using Street Food Supply, you accept and agree to be bound by the terms and provision of this agreement.\n\n2. Use License\nPermission is granted to temporarily download one copy of the materials on Street Food Supply for personal, non-commercial transitory viewing only.\n\n3. Disclaimer\nThe materials on Street Food Supply are provided on an "as is" basis. Street Food Supply makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.');
+            // Don't redirect anywhere, stay on the current page
+        });
+
+        // Privacy Policy
+        legalLinks[1].addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Privacy Policy\n\n1. Information We Collect\nWe collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.\n\n2. How We Use Your Information\nWe use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.\n\n3. Information Sharing\nWe do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.\n\n4. Data Security\nWe implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.');
+            // Don't redirect anywhere, stay on the current page
+        });
+
+        // Return and Refund Policy
+        legalLinks[2].addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Return and Refund Policy\n\n1. Return Period\nYou may return items within 7 days of delivery for a full refund.\n\n2. Return Conditions\nItems must be unused, unopened, and in their original packaging.\n\n3. Refund Process\nRefunds will be processed within 5-7 business days after we receive your returned item.\n\n4. Shipping Costs\nReturn shipping costs are the responsibility of the customer unless the item was received damaged or incorrect.\n\n5. Exchanges\nWe offer exchanges for items of equal value. If the exchange item costs more, you will be charged the difference.');
+            // Don't redirect anywhere, stay on the current page
+        });
+    }
+
+    // Fix footer navigation - use proper selectors
+    const footerLinks = document.querySelectorAll('footer a');
+    if (footerLinks.length >= 4) {
+        // Home link
+        footerLinks[0].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'Homepage.html';
+        });
+
+        // Market link
+        footerLinks[1].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'searchfeedpage.html';
+        });
+
+        // Orders link
+        footerLinks[2].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'ordertrackingpage.html';
+        });
+
+        // Account link
+        footerLinks[3].addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'accountorprofilepage.html';
+        });
+    }
+
+    // Add functionality to vendor guide
+    const vendorGuideLink = document.querySelector('section:last-of-type a');
+    if (vendorGuideLink) {
+        vendorGuideLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Vendor guide coming soon!');
+            // Don't redirect anywhere, stay on the current page
+            
+            // Add ripple effect
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    }
+});
+</script>
+<style>
+    /* Smooth FAQ transitions */
+    details > summary {
+        list-style: none;
+    }
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+    details[open] > p {
+        animation: slideDown 0.3s ease-out;
+    }
+    details.closing > p {
+        animation: slideUp 0.3s ease-out;
+    }
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+    }
+
+    /* Ripple effect for buttons */
+    .list_item {
+        position: relative;
+        overflow: hidden;
+        transform: translate3d(0, 0, 0);
+        transition: background-color 0.3s;
+    }
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.7);
+        width: 100px;
+        height: 100px;
+        margin-top: -50px;
+        margin-left: -50px;
+        animation: ripple 0.6s linear;
+        transform: scale(0);
+        pointer-events: none;
+    }
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+
+    /* Active states for navigation */
+    .navigation_item:active {
+        transform: scale(0.95);
+    }
+    .navigation_item {
+        transition: transform 0.2s;
+    }
+
+    /* Improve contact section hover states */
+    .list_item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .list_item {
+        transition: all 0.3s ease;
+    }
+</style>
+<body class="bg-[var(--background-color)] text-[var(--text-primary)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden">
+<div class="flex-grow">
+<header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm">
+<div class="flex items-center p-4 pb-2 justify-between">
+<button class="icon_button">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Help &amp; Resources</h1>
+</div>
+</header>
+<main class="px-4 py-6">
+<section class="mb-8">
+<h2 class="section_title">Frequently Asked Questions</h2>
+<div class="flex flex-col">
+<details class="border-b border-gray-200 py-4 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6">
+<p class="text-[var(--text-primary)] text-base font-medium">How do I place an order?</p>
+<div class="text-[var(--text-primary)] group-open:rotate-180 transition-transform">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<p class="typography_body pt-4">You can place an order by browsing our market, adding items to your cart, and proceeding to checkout. It's a simple and straightforward process!</p>
+</details>
+<details class="border-b border-gray-200 py-4 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6">
+<p class="text-[var(--text-primary)] text-base font-medium">What payment methods do you accept?</p>
+<div class="text-[var(--text-primary)] group-open:rotate-180 transition-transform">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<p class="typography_body pt-4">We accept various payment methods including credit/debit cards, UPI, and net banking for your convenience.</p>
+</details>
+<details class="py-4 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6">
+<p class="text-[var(--text-primary)] text-base font-medium">How do I track my order?</p>
+<div class="text-[var(--text-primary)] group-open:rotate-180 transition-transform">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<p class="typography_body pt-4">Once your order is shipped, you will receive a tracking link via email and SMS. You can also track your order from the 'My Orders' section in your account.</p>
+</details>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="section_title">Contact Us</h2>
+<div class="space-y-4">
+<a class="list_item bg-[var(--accent-color)] p-4 rounded-xl hover:bg-[var(--primary-color)] transition-all duration-300" href="tel:+919876543210" aria-label="Call our support team">
+<div class="flex items-center justify-center rounded-lg bg-white shrink-0 size-12">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"></path>
+</svg>
+</div>
+<div class="list_item_text">
+<p class="font-medium">Phone</p>
+<p class="typography_body">+91 9876543210</p>
+</div>
+</a>
+<a class="list_item bg-[var(--accent-color)] p-4 rounded-xl" href="mailto:support@streetfoodsupply.com">
+<div class="flex items-center justify-center rounded-lg bg-white shrink-0 size-12">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"></path>
+</svg>
+</div>
+<div class="list_item_text">
+<p class="font-medium">Email</p>
+<p class="typography_body">support@streetfoodsupply.com</p>
+</div>
+</a>
+<a class="list_item bg-[var(--accent-color)] p-4 rounded-xl" href="javascript:void(0);">
+<div class="flex items-center justify-center rounded-lg bg-white shrink-0 size-12">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+</svg>
+</div>
+<p class="list_item_text font-medium">Live Chat</p>
+</a>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="section_title">Legal &amp; Information</h2>
+<div class="bg-[var(--accent-color)] rounded-xl">
+<a class="list_item p-4" href="javascript:void(0);">
+<p class="list_item_text font-medium flex-1">Terms of Service</p>
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
+</a>
+<a class="list_item p-4" href="javascript:void(0);">
+<p class="list_item_text font-medium flex-1">Privacy Policy</p>
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
+</a>
+<a class="list_item p-4 border-b-0" href="javascript:void(0);">
+<p class="list_item_text font-medium flex-1">Return and Refund Policy</p>
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
+</a>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="section_title">About Us</h2>
+<p class="typography_body">
+              Street Food Supply is dedicated to supporting street food vendors across India. We provide a platform for purchasing high-quality raw materials, exchanging surplus goods, and managing your business efficiently. Our mission is to empower vendors and ensure the continued success of India's vibrant street food culture.
+            </p>
+</section>
+<section>
+<h2 class="section_title">Vendor Guide</h2>
+<a class="list_item bg-[var(--accent-color)] p-4 rounded-xl" href="javascript:void(0);">
+<div class="flex items-center justify-center rounded-lg bg-white shrink-0 size-12">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M224,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h64a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"></path></svg>
+</div>
+<p class="list_item_text font-medium">Getting Started Guide</p>
+</a>
+</section>
+</main>
+</div>
+<footer class="navigation_bar">
+<a class="navigation_item flex flex-col items-center gap-1" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path>
+</svg>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="navigation_item flex flex-col items-center gap-1" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M232,96a7.89,7.89,0,0,0-.3-2.2L217.35,43.6A16.07,16.07,0,0,0,202,32H54A16.07,16.07,0,0,0,38.65,43.6L24.31,93.8A7.89,7.89,0,0,0,24,96v16a40,40,0,0,0,16,32v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V144a40,40,0,0,0,16-32ZM54,48H202l11.42,40H42.61Zm50,56h48v8a24,24,0,0,1-48,0Zm-16,0v8a24,24,0,0,1-48,0v-8ZM200,208H56V151.2a40.57,40.57,0,0,0,8,.8,40,40,0,0,0,32-16,40,40,0,0,0,64,0,40,40,0,0,0,32,16,40.57,40.57,0,0,0,8-.8Zm-8-72a24,24,0,0,1-24-24v-8h48v8A24,24,0,0,1,192,136Z"></path>
+</svg>
+<span class="text-xs font-medium">Market</span>
+</a>
+<a class="navigation_item flex flex-col items-center gap-1" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"></path>
+</svg>
+<span class="text-xs font-medium">Orders</span>
+</a>
+<a class="text-[var(--text-primary)] flex flex-col items-center gap-1" href="#">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M230.93,220a8,8,0,0,1-6.93,4H32a8,8,0,0,1-6.92-12c15.23-26.33,38.7-45.21,66.09-54.16a72,72,0,1,1,73.66,0c27.39,8.95,50.86,27.83,66.09,54.16A8,8,0,0,1,230.93,220Z"></path>
+</svg>
+<span class="text-xs font-medium">Account</span>
+</a>
+</footer>
+</div>
+
+</body></html>

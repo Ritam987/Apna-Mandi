@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Order Confirmation</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #f8f8ec;
+        --background-color: #ffffff;
+        --text-primary: #333333;
+        --text-secondary: #666666;
+        --accent-color: #e0e0d1;
+      }
+      body {
+        font-family: 'Spline Sans', 'Noto Sans', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-primary);
+      }
+      .button_primary {
+        @apply bg-[var(--primary-color)] text-[var(--text-primary)] rounded-full px-6 py-3 hover:bg-[var(--accent-color)] transition duration-200;
+      }
+      .button_secondary {
+        @apply bg-white text-[var(--text-primary)] rounded-full px-6 py-3 border border-[var(--primary-color)] hover:bg-[var(--accent-color)] transition duration-200;
+      }
+      .card {
+        @apply bg-white rounded-xl shadow-md p-6;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Order confirmation page loaded'); // Debug log
+    
+    // Load order data from localStorage
+    const orderDataString = localStorage.getItem('orderData');
+    console.log('Order data from localStorage:', orderDataString); // Debug log
+    
+    const orderData = JSON.parse(orderDataString || '{}');
+    console.log('Parsed order data:', orderData); // Debug log
+    
+    // Update order ID
+    const orderIdElement = document.querySelector('p.mb-2.text-base');
+    if (orderIdElement && orderData.orderId) {
+        orderIdElement.textContent = `Order ID: ${orderData.orderId}`;
+        console.log('Updated order ID:', orderData.orderId); // Debug log
+    } else if (orderIdElement) {
+        // Fallback order ID if no data
+        const fallbackId = `ORD${Date.now()}`;
+        orderIdElement.textContent = `Order ID: ${fallbackId}`;
+        console.log('Using fallback order ID:', fallbackId); // Debug log
+    }
+    
+    // Update order summary if data exists
+    if (orderData.items && orderData.items.length > 0) {
+        console.log('Updating order summary with items:', orderData.items); // Debug log
+        const orderSummaryContainer = document.querySelector('.card .space-y-3');
+        if (orderSummaryContainer) {
+            orderSummaryContainer.innerHTML = orderData.items.map(item => `
+                <div class="flex justify-between">
+                    <div>
+                        <p class="font-medium">${item.name || 'Product'}</p>
+                        <p class="text-sm text-[var(--text-secondary)]">${item.quantity || 1} kg</p>
+                    </div>
+                    <p>₹${(parseInt(item.price?.match(/₹(\d+)/)?.[1] || 0) * (item.quantity || 1))}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Update totals
+        const subtotalElement = document.querySelector('.space-y-2 .flex.justify-between.text-[var(--text-secondary)]:first-child p:last-child');
+        const deliveryElement = document.querySelector('.space-y-2 .flex.justify-between.text-[var(--text-secondary)]:nth-child(2) p:last-child');
+        const totalElement = document.querySelector('.space-y-2 .flex.justify-between.font-bold.text-[var(--text-primary)] p:last-child');
+        
+        if (subtotalElement && orderData.total) subtotalElement.textContent = `₹${orderData.total - 50}`;
+        if (deliveryElement) deliveryElement.textContent = `₹50`;
+        if (totalElement && orderData.total) totalElement.textContent = `₹${orderData.total}`;
+    } else {
+        console.log('No order items found in data'); // Debug log
+    }
+    
+    // Add back button functionality
+    const backButton = document.querySelector('header button');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            window.location.href = 'Homepage.html';
+        });
+    }
+    
+    // Copy order ID on click
+    const orderId = document.querySelector('p.mb-2.text-base');
+    if (orderId) {
+        orderId.style.cursor = 'pointer';
+        orderId.title = 'Click to copy Order ID';
+        orderId.addEventListener('click', () => {
+            const id = orderId.textContent.split(':')[1]?.trim();
+            if (id) {
+                navigator.clipboard.writeText(id);
+                
+                const originalText = orderId.textContent;
+                orderId.textContent = 'Order ID copied!';
+                orderId.style.color = 'green';
+                
+                setTimeout(() => {
+                    orderId.textContent = originalText;
+                    orderId.style.color = '';
+                }, 2000);
+            }
+        });
+    }
+
+    // Navigation functionality for footer
+    document.getElementById('homeLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'Homepage.html';
+    });
+
+    document.getElementById('categoriesLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'searchfeedpage.html';
+    });
+
+    document.getElementById('hubCartLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'hubcartpage.html';
+    });
+
+    document.getElementById('surplusLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'specialofferspage.html';
+    });
+
+    document.getElementById('profileLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'accountorprofilepage.html';
+    });
+    
+    console.log('Order confirmation page setup complete'); // Debug log
+});
+</script>
+<style>
+</style>
+<body class="bg-[var(--background-color)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden text-[var(--text-primary)] max-w-md mx-auto">
+<header class="p-4">
+<div class="flex items-center justify-between">
+<button class="flex size-10 items-center justify-center rounded-full">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+</svg>
+</button>
+<h1 class="flex-1 text-center text-xl font-bold">Order Confirmation</h1>
+<div class="w-10"></div>
+</div>
+</header>
+<main class="flex-grow px-4 pb-8 pt-4 text-center">
+<div class="flex justify-center">
+<div class="mb-6 flex size-24 items-center justify-center rounded-full bg-green-100 text-green-500 animate-[scale_0.3s_ease-in-out] shadow-lg">
+<svg fill="currentColor" height="48px" viewBox="0 0 256 256" width="48px" xmlns="http://www.w3.org/2000/svg" class="animate-[scale_0.5s_ease-in-out_0.3s]">
+<path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+<style>
+@keyframes scale {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+</style>
+</div>
+<h2 class="mb-2 text-2xl font-bold">Your order has been placed successfully!</h2>
+<p class="mb-2 text-base text-[var(--text-secondary)]">Order ID: #1234567890</p>
+<p class="text-base text-[var(--text-secondary)]">Estimated Delivery: 10:00 AM - 11:00 AM</p>
+<div class="card my-6 text-left">
+<h3 class="mb-4 text-lg font-bold">Quick Order Summary</h3>
+<div class="space-y-3">
+<div class="flex justify-between">
+<div>
+<p class="font-medium">Spices</p>
+<p class="text-sm text-[var(--text-secondary)]">2 items</p>
+</div>
+<p>₹ 250</p>
+</div>
+<div class="flex justify-between">
+<div>
+<p class="font-medium">Vegetables</p>
+<p class="text-sm text-[var(--text-secondary)]">1 item</p>
+</div>
+<p>₹ 150</p>
+</div>
+<div class="flex justify-between">
+<div>
+<p class="font-medium">Dairy</p>
+<p class="text-sm text-[var(--text-secondary)]">1 item</p>
+</div>
+<p>₹ 100</p>
+</div>
+</div>
+<hr class="my-4 border-gray-200"/>
+<div class="space-y-2">
+<div class="flex justify-between text-[var(--text-secondary)]">
+<p>Subtotal</p>
+<p>₹ 500</p>
+</div>
+<div class="flex justify-between text-[var(--text-secondary)]">
+<p>Delivery Fee</p>
+<p>₹ 50</p>
+</div>
+<div class="flex justify-between font-bold text-[var(--text-primary)]">
+<p>Total</p>
+<p>₹ 550</p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<button onclick="trackOrder()" class="button_primary w-full transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] hover:shadow-lg">Track Order</button>
+<button onclick="continueShopping()" class="button_secondary w-full transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] hover:bg-gray-50">Continue Shopping</button>
+</div>
+<script>
+function trackOrder() {
+    const orderData = JSON.parse(localStorage.getItem('orderData') || '{}');
+    const orderId = orderData.orderId || `ORD${Date.now()}`;
+    const button = document.querySelector('.button_primary');
+    button.innerHTML = '<span class="inline-flex items-center">Loading <svg class="animate-spin ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>';
+    
+    setTimeout(() => {
+        window.location.href = `ordertrackingpage.html?orderId=${orderId}`;
+    }, 1500);
+}
+
+function continueShopping() {
+    const button = document.querySelector('.button_secondary');
+    button.textContent = 'Redirecting...';
+    
+    setTimeout(() => {
+        window.location.href = 'Homepage.html';
+    }, 500);
+}
+</script>
+<div class="mt-8">
+<p class="mb-4 text-sm text-[var(--text-secondary)]">Share your feedback or follow us on social media</p>
+<div class="flex justify-center space-x-4">
+<a class="flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-500 hover:scale-110 active:scale-95 shadow-sm hover:shadow-md" href="#" aria-label="Twitter">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
+</svg>
+</a>
+<a class="flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-600" href="#">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+</svg>
+</a>
+<a class="flex size-12 items-center justify-center rounded-full bg-gray-100 text-gray-600" href="#">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
+</svg>
+</a>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 border-t border-gray-200 bg-[var(--background-color)] pb-3 pt-2">
+<div class="flex justify-around">
+<a class="flex flex-col items-center gap-1 text-[var(--text-primary)]" href="Homepage.html" id="homeLink">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+</svg>
+<p class="text-xs font-medium">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="searchfeedpage.html" id="categoriesLink">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M200,40H56A16,16,0,0,0,40,56V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,80H136V56h64ZM120,56v64H56V56ZM56,136h64v64H56Zm144,64H136V136h64v64Z"></path>
+</svg>
+<p class="text-xs font-medium">Categories</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="hubcartpage.html" id="hubCartLink">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path>
+</svg>
+<p class="text-xs font-medium">Hub Cart</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="specialofferspage.html" id="surplusLink">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"></path>
+</svg>
+<p class="text-xs font-medium">Surplus</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="accountorprofilepage.html" id="profileLink">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+</svg>
+<p class="text-xs font-medium">Profile</p>
+</a>
+</div>
+</footer>
+</div>
+
+</body></html>

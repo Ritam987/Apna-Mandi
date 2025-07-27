@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+<title>Street Food Vendor Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #f59e0b;--background-color: #f7fafc;--text-primary: #1a202c;--text-secondary: #718096;--accent-color: #e2e8f0;}
+      body {
+        font-family: 'Spline Sans', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-primary);
+      }
+      .main_container {
+        @apply mx-auto px-4 max-w-md w-full;
+      }
+      .card {
+        @apply bg-white rounded-lg shadow-sm;
+      }
+      .button_primary {
+        @apply bg-[var(--primary-color)] text-white rounded-full px-6 py-3 font-bold hover:bg-amber-600 transition duration-200;
+      }
+      .button_secondary {
+        @apply bg-white text-[var(--primary-color)] rounded-full px-6 py-3 border border-[var(--primary-color)] hover:bg-amber-50 transition duration-200;
+      }
+      .input {
+        @apply bg-white border border-[var(--accent-color)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent;
+      }
+      .typography_h1 {
+        @apply text-2xl font-bold text-[var(--text-primary)];
+      }
+      .typography_h2 {
+        @apply text-xl font-semibold text-[var(--text-primary)];
+      }
+      .typography_body {
+        @apply text-base text-[var(--text-secondary)];
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<script>
+  function handlePlaceOrder() {
+    try {
+      console.log('handlePlaceOrder called'); // Debug log
+      
+      const terms = document.getElementById('terms');
+      if (!terms.checked) {
+        alert('Please accept the Terms & Conditions to continue');
+        return;
+      }
+
+      const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+      if (!selectedPayment) {
+        alert('Please select a payment method');
+        return;
+      }
+
+      // Get payment method text properly
+      let paymentMethodText = 'UPI'; // default
+      if (selectedPayment) {
+        const paymentLabel = selectedPayment.closest('label');
+        if (paymentLabel) {
+          const paymentText = paymentLabel.querySelector('p.font-semibold');
+          if (paymentText) {
+            paymentMethodText = paymentText.textContent;
+          }
+        }
+      }
+
+      const orderButton = document.querySelector('.button_primary');
+      if (!orderButton) {
+        console.error('Order button not found');
+        return;
+      }
+
+      console.log('Starting order process...'); // Debug log
+      orderButton.disabled = true;
+      orderButton.textContent = 'Processing...';
+      
+      // Simulate order processing
+      setTimeout(() => {
+        try {
+          console.log('Processing order...'); // Debug log
+          orderButton.textContent = 'Order Placed!';
+          orderButton.classList.add('bg-green-600');
+          
+          // Store order data
+          const orderData = {
+            orderId: 'ORD' + Date.now(),
+            items: JSON.parse(localStorage.getItem('cartItems') || '[]'),
+            deliveryInfo: JSON.parse(localStorage.getItem('deliveryInfo') || '{}'),
+            paymentMethod: paymentMethodText,
+            total: calculateTotal(),
+            timestamp: new Date().toISOString()
+          };
+          
+          console.log('Order data:', orderData); // Debug log
+          localStorage.setItem('orderData', JSON.stringify(orderData));
+          
+          // Clear cart after successful order
+          localStorage.removeItem('cartItems');
+          
+          console.log('Redirecting to order confirmation...'); // Debug log
+          // Redirect immediately to order confirmation page
+          window.location.href = 'orderconfromationpage.html';
+        } catch (error) {
+          console.error('Error processing order:', error);
+          orderButton.textContent = 'Error occurred';
+          orderButton.disabled = false;
+        }
+      }, 1000); // Reduced to 1 second for testing
+    } catch (error) {
+      console.error('Error in handlePlaceOrder:', error);
+      alert('An error occurred while placing the order. Please try again.');
+    }
+  }
+
+  function applyCoupon() {
+    const couponInput = document.querySelector('input[placeholder="Enter coupon code"]');
+    const applyButton = couponInput.nextElementSibling;
+    
+    if (!couponInput.value.trim()) {
+      alert('Please enter a coupon code');
+      return;
+    }
+
+    applyButton.textContent = 'Applying...';
+    applyButton.disabled = true;
+
+    // Simulate coupon verification
+    setTimeout(() => {
+      applyButton.textContent = 'Applied!';
+      applyButton.classList.add('bg-green-600', 'text-white', 'border-green-600');
+      
+      setTimeout(() => {
+        applyButton.textContent = 'Apply';
+        applyButton.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+        applyButton.disabled = false;
+        couponInput.value = '';
+      }, 2000);
+    }, 1000);
+  }
+
+  function calculateTotal() {
+    try {
+      const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      const subtotal = cartItems.reduce((sum, item) => {
+        try {
+          const priceMatch = item.price ? item.price.match(/₹(\d+)/) : null;
+          const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+          const quantity = item.quantity || 1;
+          return sum + (price * quantity);
+        } catch (error) {
+          console.error('Error calculating item price:', error);
+          return sum;
+        }
+      }, 0);
+      
+      const deliveryFee = 50;
+      const discount = 100;
+      return Math.max(0, subtotal + deliveryFee - discount);
+    } catch (error) {
+      console.error('Error in calculateTotal:', error);
+      return 1200; // fallback total
+    }
+  }
+
+  function loadOrderSummary() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    const subtotal = cartItems.reduce((sum, item) => {
+      const priceMatch = item.price.match(/₹(\d+)/);
+      const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+      return sum + (price * item.quantity);
+    }, 0);
+    
+    const deliveryFee = 50;
+    const discount = 100;
+    const total = subtotal + deliveryFee - discount;
+    
+    // Update order summary display
+    const subtotalElement = document.querySelector('.flex.justify-between.typography_body:first-child span:last-child');
+    const deliveryElement = document.querySelector('.flex.justify-between.typography_body:nth-child(2) span:last-child');
+    const discountElement = document.querySelector('.flex.justify-between.typography_body:nth-child(3) span:last-child');
+    const totalElement = document.querySelector('.flex.justify-between span:last-child');
+    const footerTotalElement = document.querySelector('.footer .typography_h2');
+    
+    if (subtotalElement) subtotalElement.textContent = `₹ ${subtotal}`;
+    if (deliveryElement) deliveryElement.textContent = `₹ ${deliveryFee}`;
+    if (discountElement) discountElement.textContent = `- ₹ ${discount}`;
+    if (totalElement) totalElement.textContent = `₹ ${total}`;
+    if (footerTotalElement) footerTotalElement.textContent = `₹ ${total}`;
+  }
+
+  // Add back button functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('Checkout page loaded'); // Debug log
+    
+    const backButton = document.querySelector('button svg').parentElement;
+    backButton.addEventListener('click', () => window.history.back());
+    
+    // Load order summary
+    loadOrderSummary();
+    
+    // Test function to verify JavaScript is working
+    window.testOrderFunction = function() {
+      console.log('Test function called');
+      alert('JavaScript is working!');
+    };
+
+    // Footer navigation functionality
+    document.getElementById('homeLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'Homepage.html';
+    });
+
+    document.getElementById('marketLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'searchfeedpage.html';
+    });
+
+    document.getElementById('ordersLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'ordertrackingpage.html';
+    });
+
+    document.getElementById('accountLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'accountorprofilepage.html';
+    });
+  });
+</script>
+<body>
+<div class="flex flex-col min-h-screen">
+<header class="bg-white sticky top-0 z-10 shadow-sm">
+<div class="main_container flex items-center justify-between h-16">
+<button class="text-[var(--text-primary)]">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<h1 class="typography_h1">Checkout</h1>
+<div class="w-6"></div>
+</div>
+</header>
+<main class="flex-grow main_container py-6 space-y-6">
+<section class="card p-4">
+<h2 class="typography_h2 mb-4">Order Summary</h2>
+<div class="space-y-2">
+<div class="flex justify-between typography_body">
+<span>Subtotal</span>
+<span class="text-[var(--text-primary)] font-medium">₹ 1,250</span>
+</div>
+<div class="flex justify-between typography_body">
+<span>Delivery</span>
+<span class="text-[var(--text-primary)] font-medium">₹ 50</span>
+</div>
+<div class="flex justify-between typography_body">
+<span>Discount</span>
+<span class="text-green-600 font-medium">- ₹ 100</span>
+</div>
+</div>
+<hr class="my-4 border-[var(--accent-color)]"/>
+<div class="flex justify-between">
+<span class="typography_h2">Total</span>
+<span class="typography_h2">₹ 1,200</span>
+</div>
+</section>
+<section class="card p-4">
+<h2 class="typography_h2 mb-4">Payment Method</h2>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-4 rounded-lg border border-[var(--accent-color)] has-[:checked]:border-[var(--primary-color)] has-[:checked]:ring-2 has-[:checked]:ring-[var(--primary-color)] cursor-pointer transition-all duration-200 hover:border-[var(--primary-color)] active:bg-amber-50">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">UPI</p>
+<p class="typography_body">Pay via any UPI app</p>
+</div>
+<input checked="" class="form-radio h-5 w-5 text-[var(--primary-color)] focus:ring-[var(--primary-color)] transition-all duration-200" name="payment_method" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-[var(--accent-color)] has-[:checked]:border-[var(--primary-color)] has-[:checked]:ring-2 has-[:checked]:ring-[var(--primary-color)] cursor-pointer">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Credit/Debit Card</p>
+<p class="typography_body">Visa, Mastercard, RuPay &amp; more</p>
+</div>
+<input class="form-radio h-5 w-5 text-[var(--primary-color)] focus:ring-[var(--primary-color)]" name="payment_method" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-[var(--accent-color)] has-[:checked]:border-[var(--primary-color)] has-[:checked]:ring-2 has-[:checked]:ring-[var(--primary-color)] cursor-pointer">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Net Banking</p>
+<p class="typography_body">All major banks supported</p>
+</div>
+<input class="form-radio h-5 w-5 text-[var(--primary-color)] focus:ring-[var(--primary-color)]" name="payment_method" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-[var(--accent-color)] has-[:checked]:border-[var(--primary-color)] has-[:checked]:ring-2 has-[:checked]:ring-[var(--primary-color)] cursor-pointer">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Wallets</p>
+<p class="typography_body">Paytm, PhonePe, and more</p>
+</div>
+<input class="form-radio h-5 w-5 text-[var(--primary-color)] focus:ring-[var(--primary-color)]" name="payment_method" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 rounded-lg border border-[var(--accent-color)] has-[:checked]:border-[var(--primary-color)] has-[:checked]:ring-2 has-[:checked]:ring-[var(--primary-color)] cursor-pointer">
+<div>
+<p class="font-semibold text-[var(--text-primary)]">Cash on Delivery</p>
+<p class="typography_body">Pay at your doorstep</p>
+</div>
+<input class="form-radio h-5 w-5 text-[var(--primary-color)] focus:ring-[var(--primary-color)]" name="payment_method" type="radio"/>
+</label>
+</div>
+</section>
+<section class="card p-4">
+<h2 class="typography_h2 mb-4">Apply Coupon</h2>
+<div class="flex gap-2">
+<input class="input flex-grow uppercase" placeholder="Enter coupon code" type="text" maxlength="10"/>
+<button onclick="applyCoupon()" class="button_secondary px-5 py-2.5 rounded-lg text-sm transition-all duration-200 hover:bg-[var(--primary-color)] hover:text-white">Apply</button>
+</div>
+</section>
+<div class="flex items-start space-x-3 p-4">
+<input class="form-checkbox h-5 w-5 text-[var(--primary-color)] rounded border-[var(--accent-color)] focus:ring-[var(--primary-color)] mt-1" id="terms" type="checkbox"/>
+<label class="typography_body" for="terms">
+                I agree to the <a class="font-medium text-[var(--primary-color)] hover:underline" href="#">Terms &amp; Conditions</a> and <a class="font-medium text-[var(--primary-color)] hover:underline" href="#">Privacy Policy</a>.
+            </label>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-white border-t border-[var(--accent-color)] p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] mb-20">
+<div class="main_container flex items-center justify-between">
+<div>
+<p class="typography_body">Total to pay</p>
+<p class="typography_h2">₹ 1,200</p>
+</div>
+<button onclick="console.log('Button clicked'); handlePlaceOrder()" class="button_primary w-[45%] transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
+            Place Order
+          </button>
+</div>
+</footer>
+
+<!-- Footer Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-50">
+    <div class="flex justify-around items-center">
+        <a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#" id="homeLink">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16H48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path>
+            </svg>
+            <span class="text-xs font-medium">Home</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#" id="marketLink">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M232,96a7.89,7.89,0,0,0-.3-2.2L217.35,43.6A16.07,16.07,0,0,0,202,32H54A16.07,16.07,0,0,0,38.65,43.6L24.31,93.8A7.89,7.89,0,0,0,24,96v16a40,40,0,0,0,16,32v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V144a40,40,0,0,0,16-32ZM54,48H202l11.42,40H42.61Zm50,56h48v8a24,24,0,0,1-48,0Zm-16,0v8a24,24,0,0,1-48,0v-8ZM200,208H56V151.2a40.57,40.57,0,0,0,8,.8,40,40,0,0,0,32-16,40,40,0,0,0,64,0,40,40,0,0,0,32,16,40.57,40.57,0,0,0,8-.8Zm-8-72a24,24,0,0,1-24-24v-8h48v8A24,24,0,0,1,192,136Z"></path>
+            </svg>
+            <span class="text-xs font-medium">Market</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-[var(--primary-color)]" href="#" id="ordersLink">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"></path>
+            </svg>
+            <span class="text-xs font-medium">Orders</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-[var(--text-secondary)]" href="#" id="accountLink">
+            <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M230.93,220a8,8,0,0,1-6.93,4H32a8,8,0,0,1-6.92-12c15.23-26.33,38.7-45.21,66.09-54.16a72,72,0,1,1,73.66,0c27.39,8.95,50.86,27.83,66.09,54.16A8,8,0,0,1,230.93,220Z"></path>
+            </svg>
+            <span class="text-xs font-medium">Account</span>
+        </a>
+    </div>
+</nav>
+</div>
+
+</body></html>
