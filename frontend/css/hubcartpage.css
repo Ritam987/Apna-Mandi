@@ -1,0 +1,78 @@
+/* ── Hub Cart ─────────────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: var(--primary-light);
+}
+
+.cart-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.3s var(--ease) both;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.cart-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.cart-item-image {
+  width: 5rem; height: 5rem;
+  border-radius: var(--radius-lg);
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.cart-item:hover .cart-item-image { transform: scale(1.04); }
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-soft);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-light);
+}
+.qty-value {
+  min-width: 1.75rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: transform 0.15s var(--ease-spring);
+}
+.qty-value.bump { animation: bounce-in 0.25s var(--ease-spring); }
+
+.remove-btn {
+  color: var(--text-muted);
+  transition: color 0.2s ease, transform 0.2s var(--ease-spring);
+}
+.remove-btn:hover  { color: var(--error); transform: scale(1.15); }
+.remove-btn:active { transform: scale(0.9); }
+
+/* Cart summary sticky footer */
+.cart-summary-bar {
+  position: sticky;
+  bottom: 4rem;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-light);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,.06);
+}
+
+/* Swipe to delete hint */
+.swipe-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.25rem 0;
+}

@@ -1,0 +1,119 @@
+<%- include('./partials/header', {
+  title: 'Log in or Sign up',
+  pageCSS: 'loginorsignuppage.css',
+  bodyClass: 'bg-[var(--bg)]'
+}) %>
+
+<div class="page-wrapper" style="display:flex;flex-direction:column;min-height:100dvh">
+  <main style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem">
+    <div style="width:100%;max-width:360px;text-align:center">
+
+      <!-- Step indicators -->
+      <div class="step-indicator" style="justify-content:center">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <!-- Logo -->
+      <div class="auth-logo-ring" style="margin:0 auto 1.5rem">
+        <img alt="Apna Mandi" style="width:8rem;height:8rem;border-radius:50%;object-fit:cover"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpnVAlI69KX_q2P7gNYGhypM4kAYq23wT5T4N4BnjekImWCQET00fzkFSpmnmhqadgY2adS_oLJ_5ADJTm7VyZkqeeXiRORffEnRvYPcoeGED8i3iQ2tCFxR5tuZQU0CKNv8RrRowlWBgOquyyO2qIU42mgA6_Vc388dAowZSwYA9nhrBkiHTWLw4NSbSHL15PZjPAf-v45gPijzLucG97yD2cTD1gjin95hjF3SGxcxOa-ElnDUHpJ4F28Ck4_wkl2tYZ3g_Ondc"/>
+      </div>
+
+      <h1 style="font-size:1.875rem;font-weight:700;color:var(--text-primary)">Apna Mandi</h1>
+      <p style="color:var(--text-secondary);margin-top:0.35rem;margin-bottom:2rem;font-size:0.9375rem">Wholesale Prices at Your Fingertips</p>
+
+      <!-- ── View 1: Mobile input ── -->
+      <div id="mobile-input-view" class="auth-view">
+        <h2 style="font-size:1.375rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem">Login or Sign Up</h2>
+        <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.9rem">Enter your mobile number to continue</p>
+
+        <div class="input-group" style="margin-bottom:0.5rem">
+          <span class="input-icon">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+          </span>
+          <input id="mobile-number" class="input" type="tel" placeholder="10-digit mobile number"
+                 inputmode="numeric" maxlength="10" autocomplete="tel"/>
+        </div>
+        <p id="mobile-error" class="error-message">Please enter a valid 10-digit mobile number</p>
+
+        <button id="send-otp-btn" class="button_primary" style="width:100%;margin-top:1rem;font-size:1rem;padding:0.875rem">
+          <span class="button-content"><span>Get OTP</span></span>
+        </button>
+      </div>
+
+      <!-- ── View 2: OTP ── -->
+      <div id="otp-view" class="hidden auth-view">
+        <h2 style="font-size:1.375rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem">Verify Number</h2>
+        <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.9rem">
+          Code sent to <strong id="display-mobile-number" style="color:var(--text-primary)">+91 XXXXX XXXXX</strong>
+        </p>
+
+        <div style="display:flex;justify-content:center;gap:0.75rem;margin-bottom:1.25rem">
+          <input class="otp-box" type="number" inputmode="numeric" maxlength="1" aria-label="OTP digit 1"/>
+          <input class="otp-box" type="number" inputmode="numeric" maxlength="1" aria-label="OTP digit 2"/>
+          <input class="otp-box" type="number" inputmode="numeric" maxlength="1" aria-label="OTP digit 3"/>
+          <input class="otp-box" type="number" inputmode="numeric" maxlength="1" aria-label="OTP digit 4"/>
+        </div>
+
+        <button id="verify-otp-btn" class="button_primary" style="width:100%;font-size:1rem;padding:0.875rem" disabled>
+          Verify
+        </button>
+        <p style="margin-top:1rem;font-size:0.875rem;color:var(--text-secondary)">
+          Didn't receive it?
+          <button id="resend-otp-btn" style="font-weight:600;color:var(--primary-dark);margin-left:0.25rem">Resend OTP</button>
+        </p>
+      </div>
+
+      <!-- ── View 3: User data ── -->
+      <div id="user-data-view" class="hidden auth-view" style="text-align:left">
+        <h2 style="font-size:1.375rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;text-align:center">Complete Profile</h2>
+        <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.9rem;text-align:center">Just a few details to get started</p>
+
+        <form id="user-data-form" style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-field">
+            <label class="form-label" for="fullName">Full Name *</label>
+            <input class="input" id="fullName" name="fullName" type="text" placeholder="Your full name" required/>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="age">Age *</label>
+            <input class="input" id="age" name="age" type="number" placeholder="Your age" min="18" max="100" required/>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Gender *</label>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+              <label class="gender-option"><input type="radio" name="gender" value="male" required/>Male</label>
+              <label class="gender-option"><input type="radio" name="gender" value="female"/>Female</label>
+              <label class="gender-option"><input type="radio" name="gender" value="other"/>Other</label>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="email">Email (optional)</label>
+            <input class="input" id="email" name="email" type="email" placeholder="your@email.com"/>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="address">Address *</label>
+            <textarea class="input" id="address" name="address" rows="2" placeholder="Your delivery address" required style="border-radius:var(--radius-md);resize:none"></textarea>
+          </div>
+          <button type="submit" class="button_primary" style="width:100%;font-size:1rem;padding:0.875rem;margin-top:0.25rem">
+            Create Profile
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer style="padding:1rem;text-align:center">
+    <p style="font-size:0.75rem;color:var(--text-muted)">
+      By continuing, you agree to our
+      <a href="#" style="color:var(--text-primary);font-weight:500">Terms</a> &amp;
+      <a href="#" style="color:var(--text-primary);font-weight:500">Privacy Policy</a>
+    </p>
+  </footer>
+</div>
+
+<%- include('./partials/footer', { showNav: false, pageJS: 'loginorsignuppage.js' }) %>

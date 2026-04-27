@@ -1,0 +1,82 @@
+/* ── Delivery Information ─────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+}
+
+.address-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--border);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.address-card:hover { border-color: var(--primary); box-shadow: var(--shadow-sm); }
+.address-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(245,197,24,.15);
+}
+.address-card .check-badge {
+  position: absolute;
+  top: 0.75rem; right: 0.75rem;
+  width: 1.25rem; height: 1.25rem;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.2s var(--ease-spring);
+}
+.address-card.selected .check-badge { opacity: 1; transform: scale(1); }
+
+.slot-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.slot-option:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.slot-option input { accent-color: var(--primary); }
+
+/* Add address modal */
+.add-address-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.add-address-modal.open { pointer-events: all; }
+.add-address-sheet {
+  width: 100%;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease);
+  box-shadow: 0 -8px 30px rgba(0,0,0,.12);
+}
+.add-address-modal.open .add-address-sheet { transform: translateY(0); }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: calc(var(--z-modal) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }

@@ -1,0 +1,103 @@
+/* ── Help & Resources ─────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: var(--primary-light);
+}
+
+/* FAQ accordion */
+.faq-item {
+  border-bottom: 1px solid var(--border-light);
+  overflow: hidden;
+}
+.faq-item:last-child { border-bottom: none; }
+
+.faq-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.faq-summary::-webkit-details-marker { display: none; }
+.faq-summary h3 {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+}
+.faq-chevron {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: transform 0.3s var(--ease);
+}
+details[open] .faq-chevron { transform: rotate(180deg); }
+
+.faq-body {
+  padding-bottom: var(--space-4);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  animation: fadeIn 0.25s var(--ease) both;
+}
+
+/* Contact cards */
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--bg-soft);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  text-decoration: none;
+  color: inherit;
+}
+.contact-card:hover {
+  background: var(--primary-light);
+  border-color: rgba(245,197,24,.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.contact-card:active { transform: translateY(0); }
+.contact-icon {
+  width: 3rem; height: 3rem;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Legal links */
+.legal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+.legal-item:last-child { border-bottom: none; }
+.legal-item:hover { background: var(--bg-soft); }
+
+.section_title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--primary);
+  display: inline-block;
+}

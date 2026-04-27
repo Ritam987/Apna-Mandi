@@ -1,0 +1,122 @@
+<%- include('./partials/header', {
+  title: 'Product Details',
+  pageCSS: 'productdetailspage.css',
+  bodyClass: ''
+}) %>
+
+<div class="page-wrapper">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem;position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-light)">
+    <button class="icon_button" onclick="history.back()" aria-label="Go back">
+      <svg fill="none" height="22" stroke="currentColor" viewBox="0 0 24 24" width="22">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </svg>
+    </button>
+    <h1 style="font-size:1.0625rem;font-weight:700;color:var(--text-primary)">Product Details</h1>
+    <button id="wishlist-btn" class="icon_button" aria-label="Add to wishlist">
+      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:1rem 1rem 8rem">
+    <!-- Product image -->
+    <div class="product-hero-img animate-scale-in"
+         style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuBXGEfZOunHvkfLG7t-2I-AHhtmqPPd45pCMc3oHSpAr9M3xhKKvqi81D0sSArehx32vzz5E-77VshmevreTmZ2Zv3hbUxFeDjq453yej2AGgmSjWFePNJ2PjLoFedMaOkp_S-VSJZ-g8MYFxDBuzeyUxsxCwxHhrWGV5JwKv6mL6QSdCRCeT4p_dIwuevKOkJpj77J57DyEXLQDQ5DlCvPTiDLBRRo-IHrss6FOe0yaPR9c2FhUjYmZaZ-9V-fIbu63pfGbwmWVv4')">
+    </div>
+
+    <!-- Name & price -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:1rem">
+      <div>
+        <h2 class="product-name" style="font-size:1.375rem;font-weight:700;color:var(--text-primary)">Fresh Tomatoes</h2>
+        <p class="product-seller" style="font-size:0.875rem;color:var(--text-secondary);margin-top:0.2rem">Sold by: Fresh Farms</p>
+      </div>
+      <p class="product-price" style="font-size:1.25rem;font-weight:700;color:var(--primary-dark)">₹45 / kg</p>
+    </div>
+
+    <!-- Stars -->
+    <div class="stars" style="margin-top:0.5rem">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      <span class="star">★</span><span class="star empty">★</span>
+      <span style="font-size:0.8125rem;color:var(--text-secondary);margin-left:0.35rem">(4.0) · 128 reviews</span>
+    </div>
+
+    <!-- Quantity selector -->
+    <div class="qty-selector" style="margin-top:1.25rem">
+      <p style="font-weight:600;font-size:0.9375rem;color:var(--text-primary)">Quantity</p>
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button id="qty-minus" class="qty-btn" aria-label="Decrease">−</button>
+        <span id="qty-display" class="qty-display">1 kg</span>
+        <button id="qty-plus"  class="qty-btn" aria-label="Increase">+</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="detail-tabs" style="margin-top:1.5rem">
+      <button class="detail-tab active" data-panel="panel-info">Details</button>
+      <button class="detail-tab" data-panel="panel-review">Reviews</button>
+      <button class="detail-tab" data-panel="panel-vendor">Vendor</button>
+    </div>
+
+    <div id="panel-info" class="detail-panel animate-fade-in">
+      <p class="product-desc" style="font-size:0.9rem;color:var(--text-secondary);line-height:1.7">
+        Freshly harvested tomatoes, perfect for cooking and salads. Sourced directly from local farms.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem">
+        <div style="background:var(--bg-soft);border-radius:var(--radius-lg);padding:0.75rem">
+          <p style="font-size:0.75rem;color:var(--text-muted)">Origin</p>
+          <p style="font-weight:600;font-size:0.875rem;margin-top:0.15rem">Maharashtra</p>
+        </div>
+        <div style="background:var(--bg-soft);border-radius:var(--radius-lg);padding:0.75rem">
+          <p style="font-size:0.75rem;color:var(--text-muted)">Freshness</p>
+          <p style="font-weight:600;font-size:0.875rem;margin-top:0.15rem">Harvested today</p>
+        </div>
+        <div style="background:var(--bg-soft);border-radius:var(--radius-lg);padding:0.75rem">
+          <p style="font-size:0.75rem;color:var(--text-muted)">Min. Order</p>
+          <p style="font-weight:600;font-size:0.875rem;margin-top:0.15rem">1 kg</p>
+        </div>
+        <div style="background:var(--bg-soft);border-radius:var(--radius-lg);padding:0.75rem">
+          <p style="font-size:0.75rem;color:var(--text-muted)">Delivery</p>
+          <p style="font-weight:600;font-size:0.875rem;margin-top:0.15rem">Same day</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-review" class="detail-panel hidden animate-fade-in">
+      <div style="background:var(--bg-soft);border-radius:var(--radius-xl);padding:1rem;margin-bottom:0.75rem">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
+          <div style="width:2.25rem;height:2.25rem;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem">R</div>
+          <div>
+            <p style="font-weight:600;font-size:0.875rem">Rahul M.</p>
+            <div class="stars" style="font-size:0.75rem">★★★★★</div>
+          </div>
+        </div>
+        <p class="product-review" style="font-size:0.875rem;color:var(--text-secondary);line-height:1.6">
+          Excellent quality tomatoes, very fresh and flavorful. Highly recommended!
+        </p>
+      </div>
+    </div>
+
+    <div id="panel-vendor" class="detail-panel hidden animate-fade-in">
+      <div style="display:flex;align-items:center;gap:0.875rem;background:var(--bg-soft);border-radius:var(--radius-xl);padding:1rem">
+        <div style="width:3rem;height:3rem;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.125rem;flex-shrink:0">F</div>
+        <div>
+          <p style="font-weight:700;font-size:0.9375rem">Fresh Farms</p>
+          <p style="font-size:0.8125rem;color:var(--text-secondary);margin-top:0.1rem">Mumbai, Maharashtra</p>
+          <p style="font-size:0.75rem;color:var(--success);margin-top:0.15rem;font-weight:500">✓ Verified Vendor</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky add to cart bar -->
+  <div class="add-to-cart-bar">
+    <button id="add-to-cart-btn" class="button_primary" style="width:100%;font-size:1rem;padding:0.875rem">
+      Add to Hub Cart
+    </button>
+  </div>
+</div>
+
+<%- include('./partials/footer', { activePage: 'home', pageJS: 'productdetailspage.js' }) %>

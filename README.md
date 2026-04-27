@@ -2,7 +2,28 @@
 
 ## 🌟 Overview
 
-**Apna Mandi** is a comprehensive e-commerce platform designed specifically for street food vendors and small-scale food businesses. The platform provides wholesale ingredients, fresh produce, and essential supplies at competitive prices, helping vendors source quality ingredients efficiently.
+**Apna Mandi** is a wholesale e-commerce marketplace built to empower street food vendors, small-scale food businesses, and local caterers.
+The platform connects vendors with fresh produce, wholesale ingredients, bulk supplies, and regional deals through a mobile-first shopping experience.
+
+## 🧩 System Architecture
+
+Apna Mandi is designed as a hybrid static/frontend application with a lightweight Node.js backend.
+The backend serves static assets, renders EJS views for page templates, and exposes a simple API endpoint.
+
+### Architecture Components
+
+- Frontend static assets: `frontend/index.html`, `frontend/css/*`, `frontend/js/*`
+- View templates: `frontend/views/*.ejs`, `frontend/views/partials/*`
+- Backend server: `backend/server.js`
+- Node dependencies: Express, EJS, CORS, dotenv, Morgan
+
+### Runtime Flow
+
+1. User lands on `GET /` served by `index.html`
+2. User navigates to pages under `/pages/*`
+3. Backend renders EJS views and serves static JS/CSS
+4. User interactions are handled client-side in JavaScript with browser storage state
+5. API endpoints are available for future integration at `/api`
 
 ## 🎯 Target Audience
 
@@ -44,7 +65,7 @@
 - **Responsive Design**: Works seamlessly across all screen sizes
 - **Accessibility**: User-friendly navigation and interactions
 
-## 📁 File Structure
+## 📁 Current File Structure
 
 ```
 Apna-Mandi/
@@ -68,191 +89,420 @@ Apna-Mandi/
 
 ## 🛠️ Technical Stack
 
-### **Frontend Technologies**
-- **HTML5**: Semantic markup structure
-- **CSS3**: Modern styling with Tailwind CSS
-- **JavaScript**: Interactive functionality and state management
-- **Tailwind CSS**: Utility-first CSS framework for responsive design
+### Frontend
+- HTML5 for page structure
+- CSS3 + Tailwind CSS utility classes for styling
+- Vanilla JavaScript for page logic and user interaction
+- Local storage for session persistence
 
-### **Key Libraries & Dependencies**
-- **Google Fonts**: Poppins, Spline Sans, Noto Sans for typography
-- **Tailwind CSS CDN**: For rapid UI development
-- **Local Storage**: Client-side data persistence
-- **Responsive Design**: Mobile-first approach
+### Backend
+- Node.js and Express for serving pages and static assets
+- EJS for rendering reusable page templates
+- CORS for cross-origin support
+- dotenv for environment configuration
 
-### **Design System**
-- **Color Palette**: 
-  - Primary: #FFC700 (Yellow)
-  - Background: #FFFFFF (White)
-  - Text Primary: #333333 (Dark Gray)
-  - Text Secondary: #666666 (Medium Gray)
-- **Typography**: Modern, readable fonts optimized for mobile
-- **Icons**: SVG icons for crisp, scalable graphics
+### Dependencies
+- `express`
+- `ejs`
+- `dotenv`
+- `cors`
+- `morgan`
+- `nodemon` (dev)
 
-## 🎯 Core Functionality
+## 🧠 Business Logic & Feature Logic
 
-### **1. Landing & Authentication**
-- **Splash Screen**: Branded loading experience
-- **OTP Verification**: Secure mobile number authentication
-- **User Onboarding**: Guided setup process
+### Sign-up / Login Flow
+- User enters mobile number
+- OTP is generated client-side or mocked for verification
+- Authentication state is stored in browser storage
+- Once verified, the user is routed to the homepage
 
-### **2. Product Discovery**
-- **Category Navigation**: Easy browsing by product type
-- **Search Functionality**: Find specific products quickly
-- **Filtering Options**: Sort by price, category, availability
-- **Product Recommendations**: Personalized suggestions
+### Product Discovery
+- Homepage displays categories and featured deals
+- Search page allows query matching product name, category, or tag
+- Product detail page shows price, description, stock, and add-to-cart options
 
-### **3. Shopping Experience**
-- **Add to Cart**: Seamless product addition
-- **Quantity Management**: Adjust quantities easily
-- **Price Calculations**: Real-time total updates
-- **Wishlist Management**: Save items for later
+### Cart & Wishlist
+- Cart stores selected products and quantities in local storage
+- Subtotal updates dynamically
+- Users can remove items and change quantities
+- Wishlist stores favorite products for later purchases
 
-### **4. Checkout & Payment**
-- **Multiple Payment Methods**: UPI, cards, cash on delivery
-- **Address Management**: Save multiple delivery addresses
-- **Order Summary**: Clear breakdown of costs
-- **Terms & Conditions**: Legal compliance
+### Checkout Flow
+- Users choose delivery information
+- Order summary shows product totals, shipping, and discounts
+- Checkout validates required fields before allowing completion
 
-### **5. Order Management**
-- **Order Tracking**: Real-time status updates
-- **Delivery Information**: Detailed delivery tracking
-- **Order History**: Past order management
-- **Customer Support**: Help and resources
+### Order Management
+- Order confirmation page displays purchase details and expected delivery
+- Tracking page illustrates shipment progress through status steps
+- Account page provides vendor profile and order history links
 
-## 🌟 Special Features
+### Offers & Location
+- Special offers page highlights flash sales and bulk deals
+- Location page captures city/region preference for localized pricing
+- Regional deals drive targeted vendor promotions
 
-### **Flash Sales System**
-- Time-limited offers with countdown timers
-- Percentage-based discounts
-- Limited quantity alerts
-- Regional deal targeting
+## 🗂️ ER Diagram and Data Model
 
-### **Surplus Management**
-- Special deals on excess inventory
-- Bulk purchase opportunities
-- Vendor surplus listings
-- Cost-effective sourcing
+Below is a reference ER diagram for the expected data model.
 
-### **Location-Based Services**
-- City-specific offers (e.g., "Top Deals in Mumbai")
-- Local delivery optimization
-- Regional product availability
-- Location-based pricing
+```mermaid
+erDiagram
+    USERS {
+        string id PK
+        string name
+        string phone
+        string email
+        string business_name
+        string address
+        string city
+        string user_type
+        datetime created_at
+        datetime updated_at
+    }
+    CATEGORIES {
+        string id PK
+        string name
+        string description
+    }
+    PRODUCTS {
+        string id PK
+        string category_id FK
+        string name
+        string description
+        float price
+        float discount_price
+        int stock_quantity
+        string unit
+        string image_url
+        bool is_flash_sale
+        bool is_featured
+    }
+    ADDRESSES {
+        string id PK
+        string user_id FK
+        string label
+        string street
+        string city
+        string state
+        string postal_code
+        string phone
+    }
+    CART_ITEMS {
+        string id PK
+        string user_id FK
+        string product_id FK
+        int quantity
+        datetime added_at
+    }
+    WISHLIST_ITEMS {
+        string id PK
+        string user_id FK
+        string product_id FK
+        datetime added_at
+    }
+    ORDERS {
+        string id PK
+        string user_id FK
+        string address_id FK
+        string status
+        float subtotal
+        float shipping_cost
+        float discount_amount
+        float total_amount
+        datetime placed_at
+        datetime delivered_at
+    }
+    ORDER_ITEMS {
+        string id PK
+        string order_id FK
+        string product_id FK
+        int quantity
+        float unit_price
+        float total_price
+    }
+    OFFERS {
+        string id PK
+        string title
+        string description
+        string type
+        float discount_percent
+        datetime start_at
+        datetime end_at
+        string region
+    }
+    USERS ||--o{ ADDRESSES : has
+    USERS ||--o{ CART_ITEMS : owns
+    USERS ||--o{ WISHLIST_ITEMS : saves
+    USERS ||--o{ ORDERS : places
+    ORDERS ||--o{ ORDER_ITEMS : contains
+    PRODUCTS ||--o{ CART_ITEMS : referenced_by
+    PRODUCTS ||--o{ WISHLIST_ITEMS : referenced_by
+    PRODUCTS ||--o{ ORDER_ITEMS : referenced_by
+    CATEGORIES ||--o{ PRODUCTS : groups
+    OFFERS ||--o{ PRODUCTS : applies_to
+```
 
-### **Mobile Optimization**
-- Touch-friendly interface
-- Swipe gestures for navigation
-- Optimized loading times
-- Offline capability considerations
+## 🧾 Database Schema Reference
 
-## 🚀 Getting Started
+A recommended schema for future persistence is below.
 
-### **Prerequisites**
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- Internet connection for CDN resources
-- Mobile device for optimal experience
+### users
+- `id` (string, PK)
+- `name` (string)
+- `phone` (string)
+- `email` (string)
+- `business_name` (string)
+- `address` (string)
+- `city` (string)
+- `user_type` (string)
+- `created_at` (datetime)
+- `updated_at` (datetime)
 
-### **Installation**
-1. Clone or download the repository
-2. Open `index.html` in a web browser
-3. The application will start with the landing page
-4. Follow the authentication flow to access the main features
+### categories
+- `id` (string, PK)
+- `name` (string)
+- `description` (string)
 
-### **Usage Flow**
-1. **Landing**: Start at `index.html` for the splash screen
-2. **Authentication**: Complete OTP verification
-3. **Homepage**: Browse categories and deals
-4. **Shopping**: Search, add to cart, and checkout
-5. **Order Management**: Track orders and manage account
+### products
+- `id` (string, PK)
+- `category_id` (FK -> categories.id)
+- `name` (string)
+- `description` (string)
+- `price` (float)
+- `discount_price` (float)
+- `stock_quantity` (int)
+- `unit` (string)
+- `image_url` (string)
+- `is_flash_sale` (boolean)
+- `is_featured` (boolean)
 
-## 🎨 Design Philosophy
+### addresses
+- `id` (string, PK)
+- `user_id` (FK -> users.id)
+- `label` (string)
+- `street` (string)
+- `city` (string)
+- `state` (string)
+- `postal_code` (string)
+- `phone` (string)
 
-### **User-Centric Approach**
-- Designed specifically for street food vendors
-- Simplified navigation for quick access
-- Large touch targets for mobile use
-- Clear visual hierarchy
+### cart_items
+- `id` (string, PK)
+- `user_id` (FK -> users.id)
+- `product_id` (FK -> products.id)
+- `quantity` (int)
+- `added_at` (datetime)
 
-### **Business Focus**
-- Wholesale pricing emphasis
-- Bulk purchase options
-- Vendor-specific features
-- Cost-effective solutions
+### wishlist_items
+- `id` (string, PK)
+- `user_id` (FK -> users.id)
+- `product_id` (FK -> products.id)
+- `added_at` (datetime)
 
-### **Accessibility**
-- High contrast colors
-- Readable typography
-- Clear call-to-action buttons
-- Intuitive navigation
+### orders
+- `id` (string, PK)
+- `user_id` (FK -> users.id)
+- `address_id` (FK -> addresses.id)
+- `status` (string)
+- `subtotal` (float)
+- `shipping_cost` (float)
+- `discount_amount` (float)
+- `total_amount` (float)
+- `placed_at` (datetime)
+- `delivered_at` (datetime)
 
-## 🔧 Development Notes
+### order_items
+- `id` (string, PK)
+- `order_id` (FK -> orders.id)
+- `product_id` (FK -> products.id)
+- `quantity` (int)
+- `unit_price` (float)
+- `total_price` (float)
 
-### **State Management**
-- Uses localStorage for client-side data persistence
-- Cart items, user preferences, and order history
-- Session management for authentication
-- Cross-page data sharing
+### offers
+- `id` (string, PK)
+- `title` (string)
+- `description` (string)
+- `type` (string)
+- `discount_percent` (float)
+- `start_at` (datetime)
+- `end_at` (datetime)
+- `region` (string)
 
-### **Performance Optimization**
-- CDN resources for faster loading
-- Optimized images and assets
-- Minimal JavaScript footprint
-- Responsive image handling
+## 📊 Data Flow Diagram
 
-### **Browser Compatibility**
-- Modern browser support
-- Progressive enhancement
-- Graceful degradation
-- Mobile-first responsive design
+```mermaid
+flowchart TD
+    A[User Browser] -->|Request page| B[Node.js Server]
+    B -->|serves static asset| C[Frontend HTML/CSS/JS]
+    C -->|loads data & runs logic| D[Local Storage / Client State]
+    C -->|calls API| E[Backend API / future DB]
+    E -->|returns JSON| C
+    C -->|update cart/wishlist| D
+    C -->|checkout order| E
+    E -->|stores order| F[Database Schema]
+    F -->|order status| C
+```
 
-## 📱 Mobile-First Design
+## 📌 Page Flow and Logic
 
-The entire application is built with a mobile-first approach, ensuring optimal performance and user experience on smartphones and tablets. Key mobile features include:
+### Landing Screen
+- Entry point with branded loading animation
+- Navigates to login/signup or homepage depending on session state
 
-- **Touch-Optimized Interface**: Large buttons and touch targets
-- **Swipe Navigation**: Intuitive gesture-based navigation
-- **Responsive Layout**: Adapts to different screen sizes
-- **Fast Loading**: Optimized for mobile networks
+### Login / Signup
+- Phone number entry and OTP verification
+- Stores authentication status and user profile data
 
-## 🎯 Business Value
+### Homepage
+- Shows categories, popular products, special offers, and banners
+- Allows quick access to cart, wishlist, location, and profile
 
-### **For Vendors**
-- **Cost Savings**: Wholesale pricing reduces ingredient costs
-- **Time Efficiency**: Quick ordering and delivery
-- **Quality Assurance**: Verified suppliers and products
-- **Business Growth**: Access to better ingredients and deals
+### Search Feed
+- Allows searching products by name, category, or keywords
+- Displays search results with filters and sorting options
 
-### **For the Platform**
-- **Market Opportunity**: Untapped street food vendor market
-- **Scalable Model**: Easy expansion to new cities
-- **Vendor Network**: Building supplier relationships
-- **Data Insights**: Understanding vendor needs and preferences
+### Product Details
+- Shows product image, description, pricing, and available quantity
+- Provides add-to-cart and save-to-wishlist actions
 
-## 🔮 Future Enhancements
+### Hub Cart
+- Displays selected items with quantity controls
+- Updates subtotal and checkout button state in real time
 
-### **Planned Features**
-- **Real-time Inventory**: Live stock updates
-- **Vendor Dashboard**: Business analytics and insights
-- **Payment Integration**: Multiple payment gateways
-- **Delivery Tracking**: Real-time delivery updates
-- **Vendor Reviews**: Product and supplier ratings
-- **Bulk Ordering**: Advanced bulk purchase features
+### Checkout
+- Collects payment option and order review details
+- Validates delivery preferences and totals
 
-### **Technical Improvements**
-- **Backend Integration**: Server-side functionality
-- **Database Management**: Product and user data
-- **API Development**: Third-party integrations
-- **Advanced Analytics**: Business intelligence tools
+### Delivery Information
+- Captures delivery address and preferred delivery instructions
+- Saves address for future checkout sessions
+
+### Order Confirmation
+- Displays completed order summary, order ID, and expected delivery window
+
+### Order Tracking
+- Shows order status progression from placed to delivered
+- Provides vendor-friendly tracking information
+
+### Wishlist
+- Displays saved products for easy repurchase
+- Allows moving items to cart or removing saved items
+
+### Account / Profile
+- Shows vendor profile fields and business details
+- Allows editing user information, saved addresses, and location
+
+### Special Offers
+- Highlights flash deals, surplus discounts, and regional promotions
+- Includes countdown and stock alerts for urgency
+
+### Location Page
+- Captures and manages delivery region preferences
+- Uses regional filtering to display nearby deals
+
+### Help & Resources
+- Provides support content, FAQs, and guidance for using the app
+
+## 🧾 A–Z Description of the Project
+
+A — Authentication: Mobile OTP login is the entrypoint.
+B — Backend: Express server serves static assets and EJS views.
+C — Cart: Hub cart manages item selection, quantities, and totals.
+D — Delivery: Address and delivery preferences are captured before checkout.
+E — EJS: Reusable templates for view rendering.
+F — Flash Sales: Dynamic offers with time-based urgency.
+G — Growth: Designed for vendor onboarding and expansion.
+H — Homepage: Main dashboard for browsing categories and deals.
+I — Inventory: Product stock and wholesale quantity logic.
+J — JavaScript: Client-side interactivity and state handling.
+K — KPI: Business metrics will include order value and vendor retention.
+L — Location: Region-based pricing and deal targeting.
+M — Mobile-first UI: Optimized for small screens and touch navigation.
+N — Navigation: Clear page routes and experience flows.
+O — Orders: Checkout, confirmation, and tracking.
+P — Products: Categories, details, pricing, and reviews.
+Q — Quantity: Controls available product weights and bulk units.
+R — Responsive design: Works across mobile and desktop.
+S — Search: Product discovery across categories and offers.
+T — Tracking: Order status updates and progress.
+U — User Profiles: Vendor account, business details, and preferences.
+V — Vendor focus: Designed for street food and small business needs.
+W — Wishlist: Save favorite items for later purchase.
+X — eXperience: Smooth UI with focused mobile-first interaction.
+Y — Yield: Cost savings delivered through wholesale pricing.
+Z — Zero friction: Simple onboarding and checkout flow.
+
+## 🚀 How to Run Locally
+
+### Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Then open `http://localhost:5000` in your browser.
+
+### Frontend Static Option
+
+You can also open `frontend/index.html` directly in a browser for static preview.
+
+## ✅ Existing Backend Routes
+
+- `GET /` → `frontend/index.html`
+- `GET /pages/Homepage` → renders `Homepage.ejs`
+- `GET /pages/login` → renders `loginorsignuppage.ejs`
+- `GET /pages/account` → renders `accountorprofilepage.ejs`
+- `GET /pages/hubcart` → renders `hubcartpage.ejs`
+- `GET /pages/checkout` → renders `checkoutpage.ejs`
+- `GET /pages/searchfeed` → renders `searchfeedpage.ejs`
+- `GET /pages/specialoffers` → renders `specialofferspage.ejs`
+- `GET /pages/productdetails` → renders `productdetailspage.ejs`
+- `GET /pages/mywishlist` → renders `mywishlistpage.ejs`
+- `GET /pages/orderconfirmation` → renders `orderconfromationpage.ejs`
+- `GET /pages/ordertracking` → renders `ordertrackingpage.ejs`
+- `GET /pages/deliveryinfo` → renders `delivaryinformationpage.ejs`
+- `GET /pages/location` → renders `locationpage.ejs`
+- `GET /pages/help` → renders `helpandresourcespage.ejs`
+- `GET /api` → returns JSON status
+
+## 📈 Upcoming Plan & Roadmap
+
+### Phase 1 — Core MVP
+- Add persistent backend storage (MongoDB / PostgreSQL)
+- Convert mock state to real API-driven cart/wishlist/order support
+- Add authentication sessions and secure login
+- Add product management admin interface
+
+### Phase 2 — Vendor Experience
+- Add vendor dashboard and sales analytics
+- Add supplier management and inventory controls
+- Add vendor reviews and product ratings
+- Add push notifications for flash deals and order updates
+
+### Phase 3 — Fulfillment & Scaling
+- Integrate payment gateways (UPI, cards, wallets)
+- Add delivery partner tracking and live location
+- Add order history, returns, and refund workflows
+- Expand regional product availability and localization
+
+### Phase 4 — Growth & Insights
+- Add business intelligence dashboards
+- Add campaign management for promotions and seasonal offers
+- Add multi-city expansion and market-specific catalogs
+- Add machine learning recommendations and demand forecasting
 
 ## 📞 Support & Resources
 
-The platform includes comprehensive help and support features:
-- **FAQ Section**: Common questions and answers
-- **Contact Information**: Customer support details
-- **Legal Resources**: Terms, privacy policy, and legal information
-- **Tutorial Guides**: Step-by-step usage instructions
+- FAQ section for core workflow guidance
+- Contact support via email or phone in future releases
+- Terms, privacy policy, and vendor agreement pages planned
+- Tutorial guides and onboarding walkthroughs
 
 ---
 
-**Apna Mandi** - Empowering street food vendors with quality ingredients at wholesale prices! 🍽️✨
+**Apna Mandi** — Empowering street food vendors with quality ingredients, smarter ordering, and local deals. 🍽️✨

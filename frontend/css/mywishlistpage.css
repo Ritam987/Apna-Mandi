@@ -1,0 +1,51 @@
+/* ── Wishlist ─────────────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+}
+
+.wishlist-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  animation: fadeIn 0.3s var(--ease) both;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.wishlist-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.wishlist-item-img {
+  width: 5rem; height: 5rem;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.wishlist-item:hover .wishlist-item-img { transform: scale(1.04); }
+
+/* Slide-out animation on remove */
+@keyframes slideOut {
+  to { opacity: 0; transform: translateX(100%); max-height: 0; padding: 0; margin: 0; }
+}
+.wishlist-item.removing {
+  animation: slideOut 0.3s var(--ease) forwards;
+  overflow: hidden;
+}
+
+/* Heart button */
+.heart-btn {
+  color: var(--text-muted);
+  transition: color 0.2s ease, transform 0.2s var(--ease-spring);
+}
+.heart-btn:hover  { color: var(--error); transform: scale(1.2); }
+.heart-btn.active { color: var(--error); }
+.heart-btn.active svg { fill: var(--error); }

@@ -1,0 +1,62 @@
+/* ── Order Confirmation ───────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+}
+
+.success-ring {
+  width: 6rem; height: 6rem;
+  border-radius: 50%;
+  background: var(--success-light);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: bounce-in 0.5s var(--ease-spring) both;
+}
+.success-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--success);
+  opacity: 0;
+  animation: pulse-ring 1.2s ease-out 0.5s both;
+}
+.success-ring svg { color: var(--success); animation: bounce-in 0.4s var(--ease-spring) 0.2s both; }
+
+.order-id-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.order-id-badge:hover { background: var(--border-light); }
+.order-id-badge:active { transform: scale(0.97); }
+
+.order-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.order-summary-row:last-child { border-bottom: none; }
+
+.social-btn {
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.2s var(--ease-spring);
+  box-shadow: var(--shadow-sm);
+}
+.social-btn:hover { transform: scale(1.12); box-shadow: var(--shadow-md); }

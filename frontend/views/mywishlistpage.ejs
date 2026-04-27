@@ -1,0 +1,27 @@
+<%- include('./partials/header', {
+  title: 'My Wishlist',
+  pageCSS: 'mywishlistpage.css',
+  bodyClass: ''
+}) %>
+
+<div class="relative flex size-full min-h-screen flex-col">
+  <header class="sticky top-0 z-10 glass border-b border-[var(--border-light)] px-4 py-3">
+    <div class="flex items-center justify-between">
+      <button class="icon_button" onclick="history.back()" aria-label="Go back">
+        <svg fill="none" height="22" stroke="currentColor" viewBox="0 0 24 24" width="22">
+          <path d="M19 12H5M12 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </button>
+      <h1 id="wishlist-count-label" style="font-size:1.0625rem;font-weight:700;color:var(--text-primary)">My Wishlist</h1>
+      <div style="width:2.5rem"></div>
+    </div>
+  </header>
+
+  <main style="padding:1rem;padding-bottom:6rem">
+    <div id="wishlist-container" style="display:flex;flex-direction:column;gap:0.875rem">
+      <!-- Rendered by JS -->
+    </div>
+  </main>
+</div>
+
+<%- include('./partials/footer', { activePage: 'profile', pageJS: 'mywishlistpage.js' }) %>

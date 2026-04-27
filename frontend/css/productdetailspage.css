@@ -1,0 +1,103 @@
+/* ── Product Details ──────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: var(--primary-light);
+}
+
+.product-hero-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s var(--ease);
+  overflow: hidden;
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary-light);
+  border-radius: var(--radius-xl);
+  padding: 0.875rem 1.25rem;
+  border: 1.5px solid rgba(245,197,24,.3);
+}
+
+.qty-display {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 3rem;
+  text-align: center;
+  transition: transform 0.15s var(--ease-spring);
+}
+.qty-display.bump { animation: bounce-in 0.25s var(--ease-spring); }
+
+/* Star rating */
+.stars { display: flex; gap: 0.15rem; }
+.star  { color: var(--primary); font-size: 1rem; }
+.star.empty { color: var(--border); }
+
+/* Sticky add-to-cart bar */
+.add-to-cart-bar {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.875rem 1rem;
+  border-top: 1px solid var(--border-light);
+  z-index: var(--z-sticky);
+  box-shadow: 0 -4px 20px rgba(0,0,0,.06);
+}
+
+/* Image zoom on tap */
+.img-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.img-zoom-overlay.open { opacity: 1; pointer-events: all; }
+.img-zoom-overlay img {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: var(--radius-lg);
+  animation: scaleIn 0.3s var(--ease-spring);
+}
+
+/* Tabs */
+.detail-tabs {
+  display: flex;
+  border-bottom: 1.5px solid var(--border-light);
+  margin-bottom: var(--space-4);
+}
+.detail-tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.65rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1.5px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.detail-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}

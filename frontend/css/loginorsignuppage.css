@@ -1,0 +1,122 @@
+/* ── Login / Sign Up ─────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --input-bg-color: #f3f4f6;
+  --light-bg-color: #fffbeb;
+}
+
+.auth-logo-ring {
+  width: 11rem; height: 11rem;
+  border-radius: 50%;
+  background: var(--light-bg-color);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 32px rgba(245,197,24,.25);
+  position: relative;
+}
+.auth-logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px dashed rgba(245,197,24,.4);
+  animation: rotate-ring 12s linear infinite;
+}
+@keyframes rotate-ring { to { transform: rotate(360deg); } }
+
+/* View transitions */
+.auth-view {
+  animation: fadeInUp 0.35s var(--ease) both;
+}
+
+/* OTP inputs */
+.otp-box {
+  width: 3.25rem; height: 3.25rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s var(--ease-spring);
+  -moz-appearance: textfield;
+}
+.otp-box::-webkit-inner-spin-button,
+.otp-box::-webkit-outer-spin-button { -webkit-appearance: none; }
+.otp-box:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(245,197,24,.2);
+  transform: scale(1.06);
+}
+.otp-box.filled {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* Progress steps */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.step-dot {
+  width: 0.5rem; height: 0.5rem;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s var(--ease-spring);
+}
+.step-dot.active {
+  background: var(--primary);
+  width: 1.5rem;
+  border-radius: 9999px;
+}
+.step-dot.done { background: var(--success); }
+
+/* Input with icon */
+.input-group {
+  position: relative;
+}
+.input-group .input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.input-group .input { padding-left: 2.75rem; }
+
+/* Resend timer */
+.resend-timer {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Form field */
+.form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.form-label { font-size: 0.875rem; font-weight: 500; color: var(--text-primary); }
+
+/* Gender radio */
+.gender-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.gender-option:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.gender-option input { display: none; }

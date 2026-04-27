@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <% if (typeof pageCSS !== 'undefined' && pageCSS) { %>
+  <link rel="stylesheet" href="/css/<%= pageCSS %>"/>
+  <% } %>
+  <% if (typeof inlineStyles !== 'undefined' && inlineStyles) { %>
+  <style type="text/tailwindcss"><%- inlineStyles %></style>
+  <% } %>
+  <style>
+    /* Ensure price-row works everywhere */
+    .price-row { display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0; font-size:0.9375rem; }
+    .price-row.total { font-weight:700; font-size:1.0625rem; border-top:1px solid var(--border-light); padding-top:0.75rem; margin-top:0.25rem; }
+  </style>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">

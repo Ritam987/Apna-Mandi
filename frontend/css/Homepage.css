@@ -1,0 +1,95 @@
+/* ── Homepage ─────────────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: var(--primary-light);
+}
+
+/* Hero Slider */
+.hero-slider-container { position: relative; overflow: hidden; border-radius: 1rem; }
+.hero-slider { display: flex; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+.hero-slide  { flex-shrink: 0; width: 100%; }
+
+.slider-dot {
+  width: 0.5rem; height: 0.5rem;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.45);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.slider-dot.active {
+  background: #fff;
+  width: 1.5rem;
+}
+
+.slider-arrow {
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.slider-arrow:hover { opacity: 1 !important; transform: scale(1.1); }
+
+/* Flash Sale */
+.flash-sale-card {
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  cursor: pointer;
+}
+.flash-sale-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.14);
+}
+.flash-sale-card:active { transform: translateY(-1px); }
+
+/* Category */
+.category-item {
+  cursor: pointer;
+  transition: transform 0.2s var(--ease-spring);
+}
+.category-item:hover  { transform: scale(1.08); }
+.category-item:active { transform: scale(0.96); }
+.category-item .icon-wrap {
+  transition: box-shadow 0.2s ease;
+}
+.category-item:hover .icon-wrap {
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+
+/* Product Cards */
+.continue-shopping-card,
+.top-deals-card {
+  cursor: pointer;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.continue-shopping-card:hover,
+.top-deals-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+.continue-shopping-card:active,
+.top-deals-card:active { transform: translateY(-1px); }
+
+/* Search bar */
+.search-bar-wrap {
+  transition: box-shadow 0.2s ease;
+}
+.search-bar-wrap:focus-within {
+  box-shadow: 0 0 0 3px rgba(245,197,24,.25);
+}
+
+/* Countdown */
+.countdown-badge {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+/* Section fade-in on scroll */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.section-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

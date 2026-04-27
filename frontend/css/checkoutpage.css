@@ -1,0 +1,83 @@
+/* ── Checkout ─────────────────────────────────────────────── */
+:root {
+  --primary-color: var(--primary);
+  --background-color: var(--bg-soft);
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: var(--primary-light);
+}
+
+.checkout-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.3s var(--ease) both;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: var(--space-2);
+}
+.payment-option:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.payment-option input { accent-color: var(--primary); }
+.payment-option-icon {
+  width: 2.5rem; height: 2.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.order-item-row:last-child { border-bottom: none; }
+
+.coupon-input-wrap {
+  display: flex;
+  gap: var(--space-2);
+}
+.coupon-input-wrap .input { border-radius: var(--radius-full); }
+.coupon-apply-btn {
+  flex-shrink: 0;
+  padding: 0.75rem 1.25rem;
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: background 0.2s ease, transform 0.15s var(--ease-spring);
+}
+.coupon-apply-btn:hover  { background: var(--primary-dark); }
+.coupon-apply-btn:active { transform: scale(0.96); }
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.9375rem;
+}
+.price-row.total {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+}

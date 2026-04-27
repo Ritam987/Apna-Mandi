@@ -1,0 +1,53 @@
+<!-- Bottom Navigation Bar -->
+<% if (typeof showNav === 'undefined' || showNav !== false) { %>
+<footer class="sticky bottom-0 bg-[var(--background-color,#fff)] border-t border-gray-200">
+  <div class="flex justify-around py-2">
+
+    <a class="flex flex-col items-center justify-end gap-1 <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'text-[var(--primary-color)]' : 'text-[var(--text-secondary)]' %> relative" href="/pages/Homepage">
+      <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+        <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+      </svg>
+      <p class="text-xs font-medium tracking-[0.015em]">Home</p>
+      <% if (typeof activePage !== 'undefined' && activePage === 'home') { %>
+      <span class="absolute -bottom-2 w-1/2 h-1 bg-[var(--primary-color)] rounded-full"></span>
+      <% } %>
+    </a>
+
+    <a class="flex flex-col items-center justify-end gap-1 <%= typeof activePage !== 'undefined' && activePage === 'categories' ? 'text-[var(--primary-color)]' : 'text-[var(--text-secondary)]' %>" href="/pages/searchfeed">
+      <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+        <path d="M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z"></path>
+      </svg>
+      <p class="text-xs font-medium tracking-[0.015em]">Categories</p>
+    </a>
+
+    <a class="flex flex-col items-center justify-end gap-1 <%= typeof activePage !== 'undefined' && activePage === 'cart' ? 'text-[var(--primary-color)]' : 'text-[var(--text-secondary)]' %>" href="/pages/hubcart">
+      <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+        <path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path>
+      </svg>
+      <p class="text-xs font-medium tracking-[0.015em]">Hub Cart</p>
+    </a>
+
+    <a class="flex flex-col items-center justify-end gap-1 <%= typeof activePage !== 'undefined' && activePage === 'surplus' ? 'text-[var(--primary-color)]' : 'text-[var(--text-secondary)]' %>" href="/pages/specialoffers">
+      <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+        <path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"></path>
+      </svg>
+      <p class="text-xs font-medium tracking-[0.015em]">Surplus</p>
+    </a>
+
+    <a class="flex flex-col items-center justify-end gap-1 <%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'text-[var(--primary-color)]' : 'text-[var(--text-secondary)]' %>" href="/pages/account">
+      <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+        <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+      </svg>
+      <p class="text-xs font-medium tracking-[0.015em]">Profile</p>
+    </a>
+
+  </div>
+</footer>
+<% } %>
+
+<% if (typeof pageJS !== 'undefined' && pageJS) { %>
+<script src="/js/main.js"></script>
+<script src="/js/<%= pageJS %>"></script>
+<% } %>
+</body>
+</html>
