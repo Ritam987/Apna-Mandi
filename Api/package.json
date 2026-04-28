@@ -2,11 +2,11 @@
   "name": "apna-mandi-backend",
   "version": "1.0.0",
   "description": "Backend for Apna Mandi - E-commerce platform for street food vendors",
-  "main": "server.js",
+  "main": "Index.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node Index.js",
+    "dev": "nodemon Index.js"
   },
   "keywords": ["ecommerce", "vendors", "street-food"],
   "author": "Ritam Chatterjee",
