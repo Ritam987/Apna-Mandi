@@ -14,7 +14,14 @@ function loadUserData() {
   const nameEl  = document.getElementById('user-name');
   const phoneEl = document.getElementById('user-phone');
   if (nameEl)  nameEl.textContent  = user.fullName || 'Guest User';
-  if (phoneEl) phoneEl.textContent = user.phone ? `+91 ${user.phone}` : '';
+  if (phoneEl) {
+    // Format phone as +91 XXXXX XXXXX (5 digits, space, 5 digits)
+    if (user.phone && user.phone.length === 10) {
+      phoneEl.textContent = `+91 ${user.phone.slice(0, 5)} ${user.phone.slice(5)}`;
+    } else {
+      phoneEl.textContent = user.phone ? `+91 ${user.phone}` : '';
+    }
+  }
 }
 
 function initQuickActions() {

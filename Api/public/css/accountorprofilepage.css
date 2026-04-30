@@ -12,7 +12,7 @@
   background: var(--primary);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto var(--space-3);
-  box-shadow: 0 4px 16px rgba(245,197,24,.35);
+  box-shadow: 0 4px 16px rgba(138,43,226,.35);
   position: relative;
   transition: transform 0.2s var(--ease-spring);
 }
@@ -45,13 +45,25 @@
   color: var(--text-primary);
 }
 .quick-action-btn:hover {
-  background: var(--primary-light);
-  border-color: rgba(245,197,24,.4);
+  background: var(--primary-lightest);
+  border-color: rgba(138,43,226,.4);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 .quick-action-btn:active { transform: translateY(0) scale(0.97); }
 .quick-action-btn svg { color: var(--text-primary); }
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
 .settings-item {
   display: flex;

@@ -15,16 +15,19 @@
   background-position: center;
   transition: transform 0.4s var(--ease);
   overflow: hidden;
+  box-shadow: 0 0 0 2px var(--primary), var(--shadow-glow-violet);
+  cursor: pointer;
 }
 
 .qty-selector {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--primary-light);
+  background: linear-gradient(135deg, var(--primary-lightest), var(--secondary-lightest));
   border-radius: var(--radius-xl);
   padding: 0.875rem 1.25rem;
-  border: 1.5px solid rgba(245,197,24,.3);
+  border: 2px solid var(--primary);
+  box-shadow: var(--shadow-glow-violet);
 }
 
 .qty-display {
@@ -39,8 +42,14 @@
 
 /* Star rating */
 .stars { display: flex; gap: 0.15rem; }
-.star  { color: var(--primary); font-size: 1rem; }
-.star.empty { color: var(--border); }
+.star  {
+  color: var(--primary);
+  font-size: 1rem;
+  text-shadow: 0 0 8px rgba(138, 43, 226, 0.4);
+  transition: transform 0.2s var(--ease-spring);
+}
+.star:hover { transform: scale(1.2); }
+.star.empty { color: var(--border); text-shadow: none; }
 
 /* Sticky add-to-cart bar */
 .add-to-cart-bar {
@@ -49,12 +58,13 @@
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(138,43,226,0.08));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 0.875rem 1rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 2px solid var(--primary);
   z-index: var(--z-sticky);
-  box-shadow: 0 -4px 20px rgba(0,0,0,.06);
+  box-shadow: 0 -4px 20px rgba(138, 43, 226, 0.2), var(--shadow-glow-violet);
 }
 
 /* Image zoom on tap */
@@ -81,7 +91,7 @@
 /* Tabs */
 .detail-tabs {
   display: flex;
-  border-bottom: 1.5px solid var(--border-light);
+  border-bottom: 2px solid var(--secondary-lightest);
   margin-bottom: var(--space-4);
 }
 .detail-tab {
@@ -91,13 +101,15 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1.5px;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .detail-tab.active {
-  color: var(--text-primary);
+  color: var(--primary);
   border-bottom-color: var(--primary);
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px var(--primary), var(--shadow-glow-violet);
+  border-radius: var(--radius-md);
 }

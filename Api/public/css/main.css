@@ -1,17 +1,70 @@
 /* ============================================================
    APNA MANDI — Global Design System
+   ============================================================
+   
+   Table of Contents:
+   1. Design Tokens (CSS Variables)
+   2. Reset & Base Styles
+   3. Typography
+   4. Buttons
+   5. Form Elements
+   6. Cards & Containers
+   7. Navigation
+   8. Badges & Labels
+   9. Toast Notifications
+   10. Loading States (Skeleton, Spinner)
+   11. Animations
+   12. Utility Classes
+   13. Accessibility
+   14. Responsive Design
+   15. Print Styles
+   
    ============================================================ */
 
-/* ── Design Tokens ─────────────────────────────────────────── */
+/* ── 1. Design Tokens ───────────────────────────────────────── */
 :root {
-  /* Brand Colors */
-  --primary:        #f5c518;   /* Golden yellow — main CTA */
-  --primary-dark:   #d4a800;   /* Hover state */
-  --primary-light:  #fff8dc;   /* Tinted backgrounds */
+  /* BRAND PRIMARY - BLUE VIOLET (Energy/Action) */
+  --primary:           #8A2BE2;   /* Bright blue violet — main CTA */
+  --primary-dark:      #6B1FB5;   /* Darker shade for hover */
+  --primary-darker:    #4B0082;   /* Even darker for pressed */
+  --primary-light:     #C9A6E0;   /* Light tint for backgrounds */
+  --primary-lightest:  #EDE0FF;   /* Lightest tint for soft UI */
+
+  /* BRAND SECONDARY - BLUE VIOLET (Trust/Creativity) */
+  --secondary:         #7B2FBE;   /* Slightly deeper blue violet */
+  --secondary-dark:    #5C1F9A;   /* Darker shade */
+  --secondary-light:   #A855D4;   /* Lighter tint */
+  --secondary-lighter: #C9A6E0;   /* Even lighter for backgrounds */
+  --secondary-lightest: #EDE0FF;  /* Very light for soft backgrounds */
+
+  /* ACCENT COLORS */
+  --accent-cyan:       #9B59B6;   /* Soft amethyst accent */
+  --accent-deep:       #4B0082;   /* Deep indigo premium */
+  --accent-violet-glow:  #B88FD0;   /* Softer blue violet for highlights */
+
+  /* GRADIENTS */
+  --gradient-violet-dark: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+  --gradient-violet-light: linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
+  --gradient-violet-shade:   linear-gradient(135deg, #8A2BE2 0%, #6B1FB5 100%);
+  --gradient-violet-accent: linear-gradient(135deg, #A847C9 0%, #4B0082 100%);
+  --gradient-violet-cyan:   linear-gradient(135deg, #8A2BE2 0%, #9B59B6 100%);
+  /* Legacy gradient aliases used by pages */
+  --gradient-lime-violet:  linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+  --gradient-violet-lime:  linear-gradient(135deg, #4B0082 0%, #8A2BE2 100%);
+  --gradient-lime-dark:    linear-gradient(135deg, #8A2BE2 0%, #6B1FB5 100%);
+
+  /* GLOWS & COLOR THERAPY SHADOWS */
+  --shadow-glow-violet:    0 0 20px rgba(138, 43, 226, 0.4);
+  --shadow-glow-violet-md:   0 0 30px rgba(138, 43, 226, 0.5);
+  --shadow-glow-dark:    0 0 20px rgba(75, 0, 130, 0.3);
+  --shadow-glow-dark-md: 0 0 30px rgba(75, 0, 130, 0.4);
+  --shadow-depth:          0 8px 16px rgba(75, 0, 130, 0.2);
+  /* Legacy alias — was lime glow, now violet */
+  --shadow-glow-lime:      0 0 20px rgba(138, 43, 226, 0.35);
 
   /* Neutrals */
-  --bg:             #ffffff;
-  --bg-soft:        #f9fafb;
+  --bg:             #FFF0F5;   /* Lavender Blush — soft, non-boring page background */
+  --bg-soft:        #F8F4FF;   /* Magnolia — slightly violet-tinted soft bg */
   --bg-card:        #ffffff;
   --border:         #e5e7eb;
   --border-light:   #f3f4f6;
@@ -116,7 +169,7 @@ input, textarea, select { font-family: inherit; }
   justify-content: center;
   gap: var(--space-2);
   background: var(--primary);
-  color: var(--text-primary);
+  color: #fff;
   font-weight: 600;
   font-size: 0.9375rem;
   padding: 0.75rem 1.5rem;
@@ -125,36 +178,56 @@ input, textarea, select { font-family: inherit; }
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease),
               transform var(--duration-fast) var(--ease-spring),
-              box-shadow var(--duration-fast) var(--ease);
+              box-shadow var(--duration-base) var(--ease);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  position: relative;
+  overflow: hidden;
 }
-.button_primary:hover  { background: var(--primary-dark); box-shadow: var(--shadow-md); }
-.button_primary:active { transform: scale(0.97); box-shadow: none; }
-.button_primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.button_primary:hover {
+  background: var(--primary-dark);
+  animation: glow-violet 1.5s ease-in-out infinite;
+  transform: scale(1.05);
+}
+.button_primary:active {
+  transform: scale(0.97);
+  animation: none;
+  box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.2);
+}
+.button_primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; animation: none; }
 
 .button_secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  background: var(--bg-soft);
-  color: var(--text-primary);
+  background: var(--secondary);
+  color: white;
   font-weight: 500;
   font-size: 0.9375rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-full);
-  border: 1.5px solid var(--border);
+  border: none;
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease),
               transform var(--duration-fast) var(--ease-spring),
-              box-shadow var(--duration-fast) var(--ease);
+              box-shadow var(--duration-base) var(--ease);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  position: relative;
+  overflow: hidden;
 }
-.button_secondary:hover  { background: var(--border-light); box-shadow: var(--shadow-sm); }
-.button_secondary:active { transform: scale(0.97); }
-.button_secondary:disabled { opacity: 0.55; cursor: not-allowed; }
+.button_secondary:hover {
+  background: var(--secondary-dark);
+  animation: glow-violet 1.5s ease-in-out infinite;
+  transform: scale(1.05);
+}
+.button_secondary:active {
+  transform: scale(0.97);
+  animation: none;
+  box-shadow: inset 0 0 10px rgba(138, 43, 226, 0.2);
+}
+.button_secondary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; animation: none; }
 
 /* ── Inputs ─────────────────────────────────────────────────── */
 .input {
@@ -171,7 +244,7 @@ input, textarea, select { font-family: inherit; }
 }
 .input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(245,197,24,.2);
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
 }
 .input::placeholder { color: var(--text-muted); }
 .input.input-error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(239,68,68,.15); }
@@ -323,6 +396,7 @@ input, textarea, select { font-family: inherit; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Animations ─────────────────────────────────────────────── */
+/* EXISTING ANIMATIONS */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -361,6 +435,54 @@ input, textarea, select { font-family: inherit; }
 @keyframes progress-bar {
   from { width: 0; }
   to   { width: 100%; }
+}
+
+/* COLOR THERAPY ANIMATIONS - Blue Violet Glow (primary) */
+@keyframes glow-lime {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(138, 43, 226, 0.55),
+                0 0 40px rgba(138, 43, 226, 0.25);
+  }
+}
+
+/* COLOR THERAPY ANIMATIONS - Blue Violet Glow */
+@keyframes glow-violet {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(138, 43, 226, 0.5),
+                0 0 40px rgba(138, 43, 226, 0.2);
+  }
+}
+
+/* Tap Ripple Effect - Blue Violet */
+@keyframes ripple-violet {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Smooth Color Transition */
+@keyframes color-shift {
+  0% { color: #8A2BE2; }
+  50% { color: #4B0082; }
+  100% { color: #8A2BE2; }
+}
+
+/* Gradient Animation */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-fade-in       { animation: fadeIn 0.35s var(--ease) both; }
@@ -473,7 +595,7 @@ input, textarea, select { font-family: inherit; }
   user-select: none;
 }
 .chip:hover  { border-color: var(--primary); color: var(--text-primary); }
-.chip.active { background: var(--primary); border-color: var(--primary); color: var(--text-primary); font-weight: 600; }
+.chip.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
 
 /* ── Progress Bar ───────────────────────────────────────────── */
 .progress-bar {
@@ -486,6 +608,23 @@ input, textarea, select { font-family: inherit; }
   height: 1px;
   background: var(--border-light);
   margin: var(--space-4) 0;
+}
+
+/* ── Price Row (for receipts, summaries) ────────────────────── */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.9375rem;
+}
+
+.price-row.total {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  border-top: 1px solid var(--border-light);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 /* ── Empty State ────────────────────────────────────────────── */
@@ -502,8 +641,398 @@ input, textarea, select { font-family: inherit; }
 .empty-state h3  { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
 .empty-state p   { font-size: 0.9rem; color: var(--text-secondary); }
 
+/* ── COLOR THERAPY UTILITY CLASSES ──────────────────────────── */
+
+/* Badge with Blue Violet - Energy/Action */
+.badge-lime {
+  background: var(--primary-lightest);
+  color: var(--primary-darker);
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Badge with Blue Violet - Trust/Premium */
+.badge-violet {
+  background: var(--secondary-light);
+  color: white;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Glow Text - Blue Violet (primary) */
+.text-glow-lime {
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  font-weight: 600;
+}
+
+/* Glow Text - Blue Violet */
+.text-glow-violet {
+  color: var(--secondary);
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+  font-weight: 600;
+}
+
+/* Gradient Card Background */
+.card-gradient {
+  background: linear-gradient(135deg, var(--primary-lightest), var(--secondary-lightest));
+  border: 1px solid rgba(138, 43, 226, 0.2);
+  box-shadow: var(--shadow-depth);
+}
+
+/* Gradient Accent Border */
+.accent-border {
+  border: 3px solid;
+  border-image: var(--gradient-lime-violet) 1;
+  border-radius: var(--radius-lg);
+}
+
+/* Lime Accent Left Border */
+.accent-border-lime {
+  border-left: 4px solid var(--primary);
+  padding-left: var(--space-3);
+}
+
+/* Violet Accent Left Border */
+.accent-border-violet {
+  border-left: 4px solid var(--secondary);
+  padding-left: var(--space-3);
+}
+
+/* Interactive Element with Glow on Hover */
+.interactive {
+  position: relative;
+  transition: all var(--duration-base) var(--ease);
+}
+.interactive:hover {
+  animation: glow-violet 1.5s ease-in-out infinite;
+  transform: scale(1.02);
+}
+
+/* Ripple Effect Container */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(138, 43, 226, 0.4);
+  transform: scale(0);
+  animation: ripple-violet 0.6s ease-out;
+  pointer-events: none;
+}
+
+/* Gradient Background - Lime to Violet */
+.bg-gradient-lime-violet {
+  background: var(--gradient-lime-violet);
+}
+
+/* Gradient Background - Violet to Lime */
+.bg-gradient-violet-lime {
+  background: var(--gradient-violet-lime);
+}
+
+/* Gradient Background - Lime Shades */
+.bg-gradient-lime {
+  background: var(--gradient-lime-dark);
+}
+
+/* Gradient Background - Violet Shades */
+.bg-gradient-violet {
+  background: var(--gradient-violet-dark);
+}
+
+/* Color Therapy - Violet Highlight Box (primary) */
+.highlight-lime {
+  background: var(--primary-lightest);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-glow-violet);
+}
+
+/* Color Therapy - Violet Highlight Box */
+.highlight-violet {
+  background: var(--secondary-lightest);
+  border: 2px solid var(--secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-glow-violet);
+}
+
+/* Chip Active State with Violet (primary) */
+.chip.active-lime {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: var(--shadow-glow-violet);
+}
+
+/* Chip Active State with Violet */
+.chip.active-violet {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+  font-weight: 600;
+  box-shadow: var(--shadow-glow-violet);
+}
+
+/* Button with Violet Glow Variant (primary) */
+.btn-lime-glow {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+.btn-lime-glow:hover {
+  animation: glow-violet 1.5s ease-in-out infinite;
+  transform: scale(1.08);
+  background: var(--primary-dark);
+}
+.btn-lime-glow:active {
+  transform: scale(0.96);
+  animation: none;
+}
+
+/* Button with Violet Glow Variant */
+.btn-violet-glow {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+.btn-violet-glow:hover {
+  animation: glow-violet 1.5s ease-in-out infinite;
+  transform: scale(1.08);
+  background: var(--secondary-dark);
+}
+.btn-violet-glow:active {
+  transform: scale(0.96);
+  animation: none;
+}
+
+/* Text Color - Electric Lime */
+.text-lime {
+  color: var(--primary);
+}
+
+/* Text Color - Blue Violet */
+.text-violet {
+  color: var(--secondary);
+}
+
+/* Background - Light Lime */
+.bg-lime-light {
+  background: var(--primary-lightest);
+}
+
+/* Background - Light Violet */
+.bg-violet-light {
+  background: var(--secondary-lightest);
+}
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 360px) {
   body { font-size: 14px; }
   .button_primary, .button_secondary { padding: 0.65rem 1.1rem; font-size: 0.875rem; }
 }
+
+
+/* ══════════════════════════════════════════════════════════════
+   13. ACCESSIBILITY IMPROVEMENTS
+   ══════════════════════════════════════════════════════════════ */
+
+/* Focus visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Remove outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip to main content link (for screen readers) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 0 0 var(--radius-md) 0;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000;
+    --border-light: #333;
+  }
+  
+  .button_primary,
+  .button_secondary {
+    border: 2px solid currentColor;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   14. RESPONSIVE DESIGN ENHANCEMENTS
+   ══════════════════════════════════════════════════════════════ */
+
+/* Extra small devices (portrait phones, less than 360px) */
+@media (max-width: 359px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .button_primary,
+  .button_secondary {
+    padding: 0.6rem 1rem;
+    font-size: 0.8125rem;
+  }
+  
+  .card {
+    padding: var(--space-3);
+  }
+}
+
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .page-wrapper {
+    max-width: 540px;
+  }
+}
+
+/* Extra large devices (large desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .page-wrapper {
+    max-width: 600px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  .navigation_bar,
+  .apna-nav {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  
+  .apna-nav__inner {
+    min-height: 3rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   15. PRINT STYLES
+   ══════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Hide non-essential elements */
+  .navigation_bar,
+  .apna-nav,
+  .icon_button,
+  .toast,
+  button:not(.print-show),
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Reset colors for print */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Show links */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  /* Page breaks */
+  .card,
+  .product-card {
+    page-break-inside: avoid;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  /* Remove padding for print */
+  body {
+    padding: 0 !important;
+  }
+  
+  .page-wrapper {
+    max-width: 100% !important;
+  }
+  
+  /* Ensure images fit */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   END OF STYLESHEET
+   ══════════════════════════════════════════════════════════════ */

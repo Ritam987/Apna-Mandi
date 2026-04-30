@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Apna Mandi — Wholesale at Your Fingertips</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:        #8A2BE2;
+      --primary-dark:   #6B1FB5;
+      --primary-darker: #4B0082;
+      --bg:             #FFF0F5;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    /* ── Full-screen landing wrapper ── */
+    #landing {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #1a0033 0%, #3b0080 40%, #8A2BE2 75%, #c77dff 100%);
+      z-index: 9999;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    #landing.fade-out {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+
+    /* ── Animated background orbs ── */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.35;
+      animation: orb-drift 8s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 300px; height: 300px; background: #c77dff; top: -80px; left: -80px; animation-delay: 0s; }
+    .orb-2 { width: 250px; height: 250px; background: #4B0082; bottom: -60px; right: -60px; animation-delay: -3s; }
+    .orb-3 { width: 180px; height: 180px; background: #ff79c6; top: 40%; left: 60%; animation-delay: -5s; }
+    @keyframes orb-drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.1); }
+    }
+
+    /* ── Logo ring ── */
+    .logo-ring {
+      position: relative;
+      width: 130px; height: 130px;
+      margin-bottom: 2rem;
+      animation: logo-pop 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+      animation-delay: 0.2s;
+    }
+    @keyframes logo-pop {
+      from { opacity: 0; transform: scale(0.5); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .logo-ring::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #c77dff, #8A2BE2, #4B0082, #c77dff);
+      animation: spin-ring 3s linear infinite;
+    }
+    @keyframes spin-ring {
+      to { transform: rotate(360deg); }
+    }
+    .logo-ring::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, #1a0033, #3b0080);
+    }
+    .logo-ring img {
+      position: relative;
+      z-index: 1;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* ── Brand text ── */
+    .brand-name {
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+      text-align: center;
+      animation: text-rise 0.6s ease both;
+      animation-delay: 0.45s;
+      text-shadow: 0 0 40px rgba(199,125,255,0.5);
+    }
+    .brand-tagline {
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.72);
+      text-align: center;
+      margin-top: 0.4rem;
+      animation: text-rise 0.6s ease both;
+      animation-delay: 0.6s;
+    }
+    @keyframes text-rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Loading bar ── */
+    .loading-track {
+      width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 99px;
+      margin-top: 3rem;
+      overflow: hidden;
+      animation: text-rise 0.5s ease both;
+      animation-delay: 0.75s;
+    }
+    .loading-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #c77dff, #fff, #c77dff);
+      background-size: 200% 100%;
+      animation:
+        fill-progress 2.2s cubic-bezier(0.4,0,0.2,1) forwards,
+        shimmer 1.2s linear infinite;
+      animation-delay: 0.9s, 0.9s;
+    }
+    @keyframes fill-progress {
+      0%   { width: 0%; }
+      60%  { width: 75%; }
+      85%  { width: 90%; }
+      100% { width: 100%; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ── Floating dots ── */
+    .dots {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      animation: text-rise 0.5s ease both;
+      animation-delay: 0.9s;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      animation: dot-bounce 1.2s ease-in-out infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.15s; }
+    .dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes dot-bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+      40%            { transform: scale(1.2); opacity: 1; background: #fff; }
+    }
+
+    /* ── Feature pills ── */
+    .pills {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+      padding: 0 1.5rem;
+      animation: text-rise 0.6s ease both;
+      animation-delay: 0.7s;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.75rem;
+      font-weight: 500;
+      backdrop-filter: blur(8px);
+    }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #c77dff; }
+  </style>
+</head>
+<body>
+
+<div id="landing">
+  <!-- Background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Logo -->
+  <div class="logo-ring">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpnVAlI69KX_q2P7gNYGhypM4kAYq23wT5T4N4BnjekImWCQET00fzkFSpmnmhqadgY2adS_oLJ_5ADJTm7VyZkqeeXiRORffEnRvYPcoeGED8i3iQ2tCFxR5tuZQU0CKNv8RrRowlWBgOquyyO2qIU42mgA6_Vc388dAowZSwYA9nhrBkiHTWLw4NSbSHL15PZjPAf-v45gPijzLucG97yD2cTD1gjin95hjF3SGxcxOa-ElnDUHpJ4F28Ck4_wkl2tYZ3g_Ondc"
+         alt="Apna Mandi"/>
+  </div>
+
+  <!-- Brand -->
+  <h1 class="brand-name">Apna Mandi</h1>
+  <p class="brand-tagline">Wholesale Prices at Your Fingertips</p>
+
+  <!-- Feature pills -->
+  <div class="pills">
+    <span class="pill"><span class="pill-dot"></span>Fresh Produce</span>
+    <span class="pill"><span class="pill-dot"></span>Best Prices</span>
+    <span class="pill"><span class="pill-dot"></span>Fast Delivery</span>
+  </div>
+
+  <!-- Loading bar -->
+  <div class="loading-track">
+    <div class="loading-fill" id="loading-fill"></div>
+  </div>
+
+  <!-- Dots -->
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    // Mark that landing was shown this session
+    sessionStorage.setItem('apnaMandi_landingShown', '1');
+
+    // After animation completes (~3.2s), redirect to the intended page
+    var dest = sessionStorage.getItem('apnaMandi_intendedDest') || '/pages/login';
+    sessionStorage.removeItem('apnaMandi_intendedDest');
+
+    setTimeout(function () {
+      var el = document.getElementById('landing');
+      el.classList.add('fade-out');
+      setTimeout(function () {
+        window.location.replace(dest);
+      }, 650);
+    }, 3200);
+  })();
+</script>
+</body>
+</html>

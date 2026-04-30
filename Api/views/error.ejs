@@ -1,0 +1,67 @@
+<%- include('./partials/header', {
+  title: title || 'Error',
+  pageCSS: null,
+  bodyClass: 'bg-[var(--bg-soft)]'
+}) %>
+
+<div class="relative flex size-full min-h-screen flex-col items-center justify-center px-4">
+  <div class="text-center animate-fade-in-up" style="max-width: 520px;">
+    
+    <!-- Error Illustration -->
+    <div class="mb-6">
+      <svg class="mx-auto" width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="80" fill="var(--error-light)" opacity="0.5"/>
+        <path d="M100 60 L100 110 M100 130 L100 140" stroke="var(--error)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Error Message -->
+    <h1 style="font-size: 1.875rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem;">
+      Oops! Something Went Wrong
+    </h1>
+    
+    <p style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
+      <%= message || 'An unexpected error occurred. Please try again later.' %>
+    </p>
+
+    <!-- Error Details (Development Only) -->
+    <% if (typeof error !== 'undefined' && error && error.stack) { %>
+    <details style="background: var(--bg-soft); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1rem; margin-bottom: 2rem; text-align: left;">
+      <summary style="cursor: pointer; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+        Error Details (Development Mode)
+      </summary>
+      <pre style="font-size: 0.75rem; color: var(--text-secondary); overflow-x: auto; white-space: pre-wrap; word-break: break-word; margin-top: 0.75rem;"><%= error.stack %></pre>
+    </details>
+    <% } %>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <button onclick="location.reload()" class="button_primary">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Try Again
+      </button>
+      
+      <a href="/pages/homepage" class="button_secondary">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
+          <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/>
+        </svg>
+        Go to Homepage
+      </a>
+    </div>
+
+    <!-- Help Section -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+      <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        If the problem persists, please contact our support team.
+      </p>
+      <a href="/pages/help" style="color: var(--primary); font-weight: 500; font-size: 0.875rem;">
+        Visit Help Center →
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<%- include('./partials/footer', { showNav: false, pageJS: null }) %>

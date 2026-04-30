@@ -2,23 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  
+  <!-- Primary Meta Tags -->
   <title><%= title %></title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <meta name="title" content="<%= title %>"/>
+  <meta name="description" content="Apna Mandi - Your trusted wholesale grocery marketplace. Fresh produce, bulk orders, and special offers delivered to your doorstep."/>
+  <meta name="keywords" content="wholesale grocery, bulk orders, fresh produce, online grocery, apna mandi, grocery delivery"/>
+  <meta name="author" content="Apna Mandi"/>
+  <meta name="robots" content="index, follow"/>
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>"/>
+  <meta property="og:title" content="<%= title %>"/>
+  <meta property="og:description" content="Apna Mandi - Your trusted wholesale grocery marketplace. Fresh produce, bulk orders, and special offers."/>
+  <meta property="og:image" content="<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>/assets/og-image.jpg"/>
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image"/>
+  <meta property="twitter:url" content="<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>"/>
+  <meta property="twitter:title" content="<%= title %>"/>
+  <meta property="twitter:description" content="Apna Mandi - Your trusted wholesale grocery marketplace."/>
+  <meta property="twitter:image" content="<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>/assets/og-image.jpg"/>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#8A2BE2"/>
+  <meta name="msapplication-TileColor" content="#8A2BE2"/>
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org"/>
+  <link rel="dns-prefetch" href="https://tile.openstreetmap.org"/>
+  
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/main.css"/>
   <% if (typeof pageCSS !== 'undefined' && pageCSS) { %>
   <link rel="stylesheet" href="/css/<%= pageCSS %>"/>
   <% } %>
+  
+  <!-- Inline Styles (if needed) -->
   <% if (typeof inlineStyles !== 'undefined' && inlineStyles) { %>
-  <style type="text/tailwindcss"><%- inlineStyles %></style>
+  <style><%- inlineStyles %></style>
   <% } %>
-  <style>
-    /* Ensure price-row works everywhere */
-    .price-row { display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0; font-size:0.9375rem; }
-    .price-row.total { font-weight:700; font-size:1.0625rem; border-top:1px solid var(--border-light); padding-top:0.75rem; margin-top:0.25rem; }
-  </style>
+  
+  <!-- Landing page gate: redirect to /landing on first visit this session -->
+  <script>
+    (function () {
+      if (!sessionStorage.getItem('apnaMandi_landingShown')) {
+        // Save where the user actually wanted to go
+        sessionStorage.setItem('apnaMandi_intendedDest', window.location.pathname + window.location.search);
+        window.location.replace('/landing');
+      }
+    })();
+  </script>
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Apna Mandi",
+    "description": "Wholesale grocery marketplace with fresh produce and bulk orders",
+    "url": "<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "<%= typeof baseUrl !== 'undefined' ? baseUrl : 'https://apnamandi.com' %>/pages/searchfeed?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>

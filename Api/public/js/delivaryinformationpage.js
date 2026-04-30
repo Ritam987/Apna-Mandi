@@ -125,6 +125,14 @@ function initContinue() {
   });
 }
 
-window.continueToPayment = window.continueToPayment || function() {
-  document.getElementById('continue-btn')?.click();
+window.continueToPayment = function() {
+  const slot = document.querySelector('input[name="delivery_slot"]:checked');
+  const instructions = document.getElementById('delivery-instructions')?.value || '';
+  const addr = selectedAddress || { address: '123, MG Road, Kochi', label: 'Home' };
+  localStorage.setItem('deliveryInfo', JSON.stringify({
+    address: addr,
+    slot: slot ? slot.closest('label').querySelector('span')?.textContent || 'Today, 6:00 PM - 7:00 PM' : 'Today, 6:00 PM - 7:00 PM',
+    instructions: instructions
+  }));
+  window.location.href = '/pages/checkout';
 };

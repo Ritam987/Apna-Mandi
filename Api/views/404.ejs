@@ -1,0 +1,68 @@
+<%- include('./partials/header', {
+  title: '404 - Page Not Found',
+  pageCSS: null,
+  bodyClass: 'bg-[var(--bg-soft)]'
+}) %>
+
+<div class="relative flex size-full min-h-screen flex-col items-center justify-center px-4">
+  <div class="text-center animate-fade-in-up" style="max-width: 480px;">
+    
+    <!-- 404 Illustration -->
+    <div class="mb-6">
+      <svg class="mx-auto" width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="80" fill="var(--primary-lightest)" opacity="0.5"/>
+        <text x="100" y="120" font-size="72" font-weight="700" fill="var(--primary)" text-anchor="middle" font-family="var(--font-sans)">404</text>
+      </svg>
+    </div>
+
+    <!-- Error Message -->
+    <h1 style="font-size: 1.875rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem;">
+      Page Not Found
+    </h1>
+    
+    <p style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
+      Sorry, we couldn't find the page you're looking for. The page might have been moved or doesn't exist.
+    </p>
+
+    <!-- Requested URL -->
+    <% if (typeof url !== 'undefined' && url) { %>
+    <div style="background: var(--bg-soft); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 0.75rem 1rem; margin-bottom: 2rem;">
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">Requested URL:</p>
+      <code style="font-size: 0.875rem; color: var(--text-primary); word-break: break-all;"><%= url %></code>
+    </div>
+    <% } %>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/pages/homepage" class="button_primary">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
+          <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"/>
+        </svg>
+        Go to Homepage
+      </a>
+      
+      <button onclick="history.back()" class="button_secondary">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Go Back
+      </button>
+    </div>
+
+    <!-- Helpful Links -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+      <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        You might be looking for:
+      </p>
+      <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; font-size: 0.875rem;">
+        <a href="/pages/searchfeed" style="color: var(--primary); font-weight: 500;">Browse Products</a>
+        <a href="/pages/specialoffers" style="color: var(--primary); font-weight: 500;">Special Offers</a>
+        <a href="/pages/hubcart" style="color: var(--primary); font-weight: 500;">My Cart</a>
+        <a href="/pages/help" style="color: var(--primary); font-weight: 500;">Help Center</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('./partials/footer', { showNav: false, pageJS: null }) %>

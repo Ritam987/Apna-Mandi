@@ -67,8 +67,8 @@
     </div>
 
     <!-- Map -->
-    <div style="position:relative;border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md)">
-      <div id="map" style="width:100%;height:280px;z-index:1"></div>
+    <div style="position:relative;border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);background:#f0f0f0">
+      <div id="map" style="width:100%;height:320px;min-height:320px;z-index:1;background:#f0f0f0"></div>
 
       <!-- Map overlay hint -->
       <div id="map-hint" style="position:absolute;bottom:0.75rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;font-size:0.75rem;padding:0.35rem 0.875rem;border-radius:var(--radius-full);pointer-events:none;white-space:nowrap;z-index:10">
@@ -89,7 +89,7 @@
   </main>
 
   <!-- Confirm bar -->
-  <div style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:1rem;border-top:1px solid var(--border-light);z-index:50">
+  <div style="position:fixed;bottom:0;left:0;right:0;width:100%;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:1rem;border-top:1px solid var(--border-light);z-index:50">
     <button id="confirm-btn" class="button_primary" style="width:100%;font-size:1rem;padding:0.875rem">
       Confirm Hub Location
     </button>

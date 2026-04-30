@@ -61,8 +61,8 @@ details[open] .faq-chevron { transform: rotate(180deg); }
   color: inherit;
 }
 .contact-card:hover {
-  background: var(--primary-light);
-  border-color: rgba(245,197,24,.4);
+  background: var(--primary-lightest);
+  border-color: rgba(138,43,226,.4);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
